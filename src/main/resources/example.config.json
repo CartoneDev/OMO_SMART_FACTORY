@@ -1,0 +1,93 @@
+{
+  "processors": [
+    {
+      "name": "alliance worker",
+      "type": "worker",
+      "description": "rabotyaga",
+      "costPH": {
+        "ICU": 1
+      }
+    },
+    {
+      "name": "t1 cybran engineer",
+      "type": "robot",
+      "description": "robotyaga",
+      "costPH": {
+        "energy": 10
+      }
+    },
+    {
+      "name": "4d mass printer",
+      "type": "machine",
+      "description": "tyaga",
+      "costPH": {
+        "energy": 55
+      }
+    }
+  ]
+  ,
+  "materials": [
+    {
+      "type" : "energy",
+      "value": 10,
+      "amount": 100,
+      "name" : "electricity",
+      "description" : "energy"
+    },
+    {
+      "name" : "mass",
+      "type" : "mass",
+      "value": 100,
+      "amount": 100
+    }
+  ]
+  ,
+  "blueprints": [
+    {
+      "name": "t1 cybran scout",
+      "type": "unit",
+      "description": "invisible chip and cardboard",
+      "costPH": {
+        "energy": 1600,
+        "mass": 160
+      },
+      "amount": 200,
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 5
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 2
+        },
+        {
+          "name": "4d mass printer",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+
+  "factory": {
+    "chain": [
+      {
+        "makes": "t1 cybran scout"
+      }
+    ],
+    "processors": [
+        {
+            "name": "alliance worker",
+            "amount": 5
+        },
+        {
+            "name": "t1 cybran engineer",
+            "amount": 2
+        },
+        {
+            "name": "4d mass printer",
+            "amount": 1
+        }
+    ]
+  }
+}

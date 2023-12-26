@@ -1,13 +1,13 @@
 package cz.cvut.fel.omo.core;
 
-import cz.cvut.fel.omo.model.Link;
+import cz.cvut.fel.omo.model.ProductionChain;
 
 import java.util.HashMap;
 
 public class SmartFactory {
     private static SmartFactory instance;
 
-    private HashMap<Integer, Link> links;
+    private HashMap<Integer, ProductionChain> links;
 
     private SmartFactory() {
         if (instance != null) {
