@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo;
 
+import cz.cvut.fel.omo.core.Clock;
+import cz.cvut.fel.omo.core.SmartFactory;
+
 public class Simulation {
 
     static SmartFactory factory;

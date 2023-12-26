@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo;
+package cz.cvut.fel.omo.core;
 
 public class Clock { // conuter alike clock + date for reporting
     private static Clock instance;

@@ -1,7 +1,14 @@
-package cz.cvut.fel.omo;
+package cz.cvut.fel.omo.core;
+
+import cz.cvut.fel.omo.model.Link;
+
+import java.util.HashMap;
 
 public class SmartFactory {
     private static SmartFactory instance;
+
+    private HashMap<Integer, Link> links;
+
     private SmartFactory() {
         if (instance != null) {
             throw new IllegalStateException("Already instantiated");
@@ -16,5 +23,6 @@ public class SmartFactory {
     }
 
     public void tick() { // each tick equals to 1 realtime hour
+        links.forEach((k, v) -> v.tick());
     }
 }
