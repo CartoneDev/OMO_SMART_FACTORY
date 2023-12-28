@@ -13,7 +13,7 @@
       "type": "robot",
       "description": "robotyaga",
       "costPH": {
-        "energy": 10
+        "electricity": 10
       }
     },
     {
@@ -21,12 +21,19 @@
       "type": "machine",
       "description": "tyaga",
       "costPH": {
-        "energy": 55
+        "electricity": 55
       }
     }
   ]
   ,
   "materials": [
+    {
+      "type" : "ICU",
+      "value": 1,
+      "amount": 1,
+      "name" : "ICU",
+      "description" : "Imaginary Currency Unit"
+    },
     {
       "type" : "energy",
       "value": 10,
@@ -37,8 +44,8 @@
     {
       "name" : "mass",
       "type" : "mass",
-      "value": 100,
-      "amount": 100
+      "value": 1,
+      "amount": 1
     }
   ]
   ,
@@ -48,7 +55,7 @@
       "type": "unit",
       "description": "invisible chip and cardboard",
       "costPH": {
-        "energy": 1600,
+        "electricity": 1600,
         "mass": 160
       },
       "amount": 200,
@@ -66,11 +73,32 @@
           "amount": 1
         }
       ]
+    },
+    {
+      "name": "t1 radar",
+      "type": "building",
+      "description": "build vision",
+      "costPH": {
+        "electricity": 350,
+        "mass": 80
+      },
+      "amount": 100,
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 25
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 10
+        }
+      ]
     }
   ],
 
   "factory": {
-    "chain": [
+
+    "chains": [
       {
         "makes": "t1 cybran scout"
       }
