@@ -14,7 +14,7 @@ public class ProcessorBuilder {
     @SneakyThrows
     public ProcessorBuilder (String type){
         result = switch (type) {
-            case "machine" -> new Machine(); // Probably later on needs a concrete parsing logic
+            case "machine" -> new Machine();
             case "worker" -> new HumanResource();
             case "robot" -> new RoboticResource();
             default -> throw new IOException("Unknown processor type: " + type);

@@ -38,6 +38,7 @@ public class Config {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Processor.class, new ProcessorDeserializer());
         module.addDeserializer(Material.class, new MaterialDeserializer());
+        module.addDeserializer(Product.class, new ProductDeserializer());
         mapper.registerModule(module);
         JsonNode jsonNode = mapper.readTree(config);
 
@@ -45,6 +46,9 @@ public class Config {
         loadMaterials(jsonNode.get("materials"), mapper);
 //        processors
         loadProcessors(jsonNode.get("processors"), mapper);
+
+        loadProducts(jsonNode.get("products"), mapper);
+
 //                materials
 //        blueprints
         loadBlueprints(jsonNode.get("blueprints"));
@@ -65,6 +69,14 @@ public class Config {
             Config.materials.get(material.getName()).unitize();
         }
     }
+
+    public static void loadProducts(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
+        Product[] products = objectMapper.treeToValue(jsonNode, Product[].class);
+        for (Product product : products) {
+            Config.products.put(product.getName(), product);
+        }
+
+    }
     public static void loadBlueprints(JsonNode jsonNode) {
 
     }
@@ -78,7 +90,11 @@ public class Config {
 
     public static Processor getProcessor(String s, int anInt) {
         Processor processor = processors.get(s);
-        processor.setAmount(anInt);
-        return processor;
+        return processor.toBuilder().amount(anInt).build();
+}
+
+    public static Product getProduct(String productName, int amount) {
+        Product product = products.get(productName);
+        return product.toBuilder().amount(amount).build();
     }
 }

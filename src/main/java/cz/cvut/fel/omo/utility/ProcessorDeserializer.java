@@ -22,8 +22,6 @@ public class ProcessorDeserializer extends StdDeserializer<Processor> {
 
     @Override
     public Processor deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        // Implement your custom parsing logic here based on the JsonParser
-        // For example:
         JsonNode node = jp.getCodec().readTree(jp);
         String type = node.get("type").asText();
         Double damage = node.has("damage") ? node.get("damage").asDouble() : 0.0; // max 1.0
@@ -40,8 +38,4 @@ public class ProcessorDeserializer extends StdDeserializer<Processor> {
                 .build();
 
     }
-
-
-
-
 }
