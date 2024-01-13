@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.model.Material;
 import cz.cvut.fel.omo.model.Product;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.Processor;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +24,10 @@ public class Config {
     private static HashMap<String, Material> materials = new HashMap<>();
     private static HashMap<String, ProductionChain> blueprints = new HashMap<>();
     private static HashMap<String, Product> products = new HashMap<>();
+    @Setter
+    private static boolean fastConfig = false;
 
+    private static JsonNode factoryConfig;
     // ---
 
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {
@@ -39,6 +43,7 @@ public class Config {
         module.addDeserializer(Processor.class, new ProcessorDeserializer());
         module.addDeserializer(Material.class, new MaterialDeserializer());
         module.addDeserializer(Product.class, new ProductDeserializer());
+        module.addDeserializer(ProductionChain.class, new ProductionChainDeserializer());
         mapper.registerModule(module);
         JsonNode jsonNode = mapper.readTree(config);
 
@@ -51,9 +56,9 @@ public class Config {
 
 //                materials
 //        blueprints
-        loadBlueprints(jsonNode.get("blueprints"));
+        loadBlueprints(jsonNode.get("blueprints"), mapper);
 //                factory
-        loadFactory(jsonNode.get("factory"));
+        loadFactory(jsonNode.get("factory"), mapper);
     }
     public static void loadProcessors(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Processor[] processors = objectMapper.treeToValue(jsonNode, Processor[].class);
@@ -77,10 +82,16 @@ public class Config {
         }
 
     }
-    public static void loadBlueprints(JsonNode jsonNode) {
+    public static void loadBlueprints(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException  {
+        ProductionChain[] productionChains = objectMapper.treeToValue(jsonNode, ProductionChain[].class);
+        for (ProductionChain productionChain : productionChains) {
+            Config.blueprints.put(productionChain.getProduct().getName(), productionChain);
+        }
 
     }
-    public static void loadFactory(JsonNode jsonNode) {
+    public static void loadFactory(JsonNode jsonNode, ObjectMapper mapper) {
+        factoryConfig = jsonNode;
+
 
     }
 
@@ -96,5 +107,12 @@ public class Config {
     public static Product getProduct(String productName, int amount) {
         Product product = products.get(productName);
         return product.toBuilder().amount(amount).build();
+    }
+
+    public static void clear() {
+        processors.clear();
+        materials.clear();
+        blueprints.clear();
+        products.clear();
     }
 }

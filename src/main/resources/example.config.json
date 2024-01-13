@@ -107,25 +107,26 @@
   ],
 
   "factory": {
+    "name": "Cybran T1 Land Factory",
 
     "chains": [
       {
         "makes": "t1 cybran scout",
-        "priority": 1
+        "priority": 10
       }
     ],
     "processors": [
         {
             "name": "alliance worker",
-            "amount": 5
+            "amount": 30
         },
         {
             "name": "t1 cybran engineer",
-            "amount": 2
+            "amount": 15
         },
         {
             "name": "4d mass printer",
-            "amount": 1
+            "amount": 5
         }
     ]
   }

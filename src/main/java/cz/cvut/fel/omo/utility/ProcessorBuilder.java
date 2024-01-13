@@ -19,6 +19,7 @@ public class ProcessorBuilder {
             case "robot" -> new RoboticResource();
             default -> throw new IOException("Unknown processor type: " + type);
         };
+        result.setType(type);
     }
     public ProcessorBuilder name(String name){
         result.setName(name);

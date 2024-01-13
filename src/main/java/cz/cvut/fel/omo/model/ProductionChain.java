@@ -17,4 +17,7 @@ public class ProductionChain {
     public void tick() {
         // TODO: implement
     }
+
+    public void addProcessor(Processor processor) {
+    }
 }
