@@ -1,0 +1,283 @@
+{
+  "products": [
+    {
+      "name": "new blizzard add-on",
+      "type": "add-on",
+      "description": "adds new blizzard addition to the game",
+      "costPH": {
+        "electricity": 1600,
+        "money": 1303
+      }
+    },
+    {
+      "name": "diablo 2000",
+      "type": "shit",
+      "description": "new game for wide auditory",
+      "costPH": {
+        "electricity": 2423,
+        "money": 2314,
+        "brain power": 2314
+      }
+    },
+    {
+      "name": "jojo baidon",
+      "type": "president",
+      "description": "jooooojooooo baiden",
+      "costPH": {
+        "electricity": 1604,
+        "money": 1756,
+        "psycho-physical": 780
+      }
+    },
+    {
+      "name": "anime cats woman rice 500 socials credits",
+      "type": "unusual anime",
+      "description": "anime featuring a cat-woman and rice, with a 500 social credits",
+      "costPH": {
+        "electricity": 1000,
+        "money": 2345,
+        "pens": 300,
+        "paper": 800,
+        "water": 558,
+        "brain power": 234
+      }
+    }
+  ],
+  "processors": [
+    {
+      "name": "junior developer",
+      "type": "worker",
+      "description": "here we go again, write a code",
+      "costPH": {
+        "money": 10,
+        "brain power": 200
+      }
+    },
+    {
+      "name": "automatic copilot-like robot",
+      "type": "robot",
+      "description": "automatically write code",
+      "costPH": {
+        "electricity": 50,
+        "money": 450
+      }
+    },
+    {
+      "name": "Mid-Level Developer",
+      "type": "worker",
+      "description": "write a code, but better",
+      "costPH": {
+        "money": 20,
+        "brain power": 400
+      }
+    },
+    {
+      "name": "Senior Developer",
+      "type": "worker",
+      "description": "write a code, but better than better",
+      "costPH": {
+        "money": 50,
+        "brain power": 600
+      }
+    },
+    {
+      "name": "Team Lead",
+      "type": "worker",
+      "description": "lead a team of developers",
+      "costPH": {
+        "money": 5,
+        "brain power": 300
+      }
+    },
+    {
+      "name": "Architect",
+      "type": "worker",
+      "description": "architect a project",
+      "costPH": {
+        "money": 150,
+        "brain power": 700
+      }
+    },
+    {
+      "name": "Animator",
+      "type": "worker",
+      "description": "animate a single scene",
+      "costPH": {
+        "money": 40,
+        "brain power": 300
+      }
+    },
+    {
+      "name": "Character Designer LLM",
+      "type": "robot",
+      "description": "design the characters' appearances on request",
+      "costPH": {
+        "electricity": 70,
+        "money": 330
+      }
+    },
+    {
+      "name": "Scriptwriter LLM",
+      "type": "robot",
+      "description": "develops the storyline on request",
+      "costPH": {
+        "electricity": 100,
+        "money": 250
+      }
+    },
+    {
+      "name": "Storyboard Artist",
+      "type": "worker",
+      "description": "draws the storyboard",
+      "costPH": {
+        "money": 60,
+        "brain power": 400
+      }
+    },
+    {
+      "name": "Director",
+      "type": "worker",
+      "description": "directs the project",
+      "costPH": {
+        "money": 150,
+        "brain power": 300
+      }
+    },
+    {
+      "name": "Producer",
+      "type": "worker",
+      "description": "produces the project",
+      "costPH": {
+        "money": 150,
+        "brain power": 400
+      }
+    },
+    {
+      "name": "funk machine",
+      "type": "machine",
+      "description": "funk machine",
+      "costPH": {
+        "electricity": 50,
+        "money": 450
+      }
+    },
+    {
+      "name": "Voice Actor",
+      "type": "worker",
+      "description": "voice acts the characters",
+      "costPH": {
+        "money": 15,
+        "brain power": 340
+      }
+    },
+    {
+      "name": "Robotics Production Unit",
+      "type": "machine",
+      "description": "machine that makes robot",
+      "costPH": {
+        "electricity": 80,
+        "money": 900
+      }
+    },
+    {
+      "name": "Electronics Assembly Robot",
+      "type": "robot",
+      "description": "machine that makes electric parts",
+      "costPH": {
+        "electricity": 20,
+        "money": 150
+      }
+    }
+  ]
+,
+  "materials": [
+    {
+      "type" : "money",
+      "value": 1,
+      "amount": 1,
+      "name" : "money",
+      "description" : "Imaginary Money"
+    },
+    {
+      "type" : "energy",
+      "value": 10,
+      "amount": 100,
+      "name" : "electricity",
+      "description" : "energy"
+    },
+    {
+      "name" : "brain power",
+      "type" : "brain power",
+      "value": 5,
+      "amount": 10
+    },
+    {
+      "name" : "brain power",
+      "type" : "brain power",
+      "value": 5,
+      "amount": 10
+    }
+  ]
+,
+  "blueprints": [
+    {
+      "name": "t1 cybran scout",
+      "amount": 200,
+
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 5
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 2
+        },
+        {
+          "name": "4d mass printer",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "name": "t1 radar",
+      "amount": 100,
+
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 25
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+
+  "factory": {
+    "name": "Cybran T1 Land Factory",
+    "repairman": 3,
+    "productionChains": [
+      {
+        "makes": "t1 cybran scout",
+        "priority": 10
+      }
+    ],
+    "processors": [
+      {
+        "name": "alliance worker",
+        "amount": 30
+      },
+      {
+        "name": "t1 cybran engineer",
+        "amount": 15
+      },
+      {
+        "name": "4d mass printer",
+        "amount": 5
+      }
+    ]
+  }
+}

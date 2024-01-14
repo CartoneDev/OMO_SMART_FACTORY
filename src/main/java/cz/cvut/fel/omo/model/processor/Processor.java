@@ -2,11 +2,12 @@ package cz.cvut.fel.omo.model.processor;
 
 import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.EventType;
+import cz.cvut.fel.omo.core.event.WaybackMachine;
 import cz.cvut.fel.omo.model.CostPH;
 import cz.cvut.fel.omo.core.Tickable;
+import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import cz.cvut.fel.omo.utility.ProcessorBuilder;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,8 @@ public abstract class Processor implements Tickable {
     private ProcessorState state;
     private Integer amount;
     private Double damage;
+
+    private ProductionChain productionChain = null;
 
     private CostPH cost;
 

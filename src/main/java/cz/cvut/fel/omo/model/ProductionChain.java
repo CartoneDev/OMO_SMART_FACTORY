@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import cz.cvut.fel.omo.core.SmartFactory;
@@ -21,6 +22,7 @@ public class ProductionChain {
     private Product product;
     private final ProductionChain prototype ;
 
+    private boolean halted = false;
     public ProductionChain(ProductionChain prototype, Integer id) {
         this.prototype = prototype;
         this.name = prototype.getName();
@@ -34,21 +36,25 @@ public class ProductionChain {
     public void tick() {
             Event e = null;
             for (Processor processor : processors) {
-
+                if (halted){
+                    break;
+                }
                 e = processor.tick();
                 if (e.getType() == EventType.PROCESSOR_BROKEN){
                     log.info("Processor " + processor.getName() + " is broken");
-
+                    break;
+                } else if (e.getType() == EventType.PROCESSOR_HALTED){
+                    halted=true;
                     break;
                 }
             }
             if (e != null) {
               if (e.getType() == EventType.PROCESSOR_BROKEN){
-                  log.info("Production chain {}" + name + " is broken", id);
-                  log.info("Incident will be reported");
+                  log.info("Production chain #{} " + name + " is broken", id);
+                  log.info("Incident on {}h will be reported", e.getTimestamp());
                   SmartFactory.getInstance().incidentHappend(e);
               }else if (e.getType() == EventType.PROCESSOR_HALTED){
-                  // Broken processor be halted till repaired
+                  log.info("Production chain #{}" + name + " is halted, awaiting repair crew", id);
               }
             }
         }
@@ -56,5 +62,10 @@ public class ProductionChain {
 
     public void addProcessor(Processor processor) {
         processors.add(processor);
+        processor.setProductionChain(this);
+    }
+
+    public void addProcessors(ArrayList<Processor> processors) {
+        processors.forEach(this::addProcessor);
     }
 }

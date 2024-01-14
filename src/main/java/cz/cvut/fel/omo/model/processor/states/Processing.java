@@ -11,12 +11,13 @@ public class Processing extends ProcessorState{
     @Override
     public Event process(Processor processor) {
         Config.getDecayModel().decay(processor);
-        boolean isBroken = new Random().nextDouble() > 0.7 || processor.getDamage() > 0.3 && new Random().nextDouble() > 0.7;
+        boolean isBroken = ((processor.getDamage() > 0.8) && (new Random().nextDouble() > 0.85)) ||
+                ((processor.getDamage() > 0.6) && (new Random().nextDouble() > 0.99));
         if (isBroken) {
             processor.setState(new Broken());
             return new Event(EventType.PROCESSOR_BROKEN, processor);
         }
-        return Event.getEmptyEvent();
+        return Event.getEvent(EventType.PRODUCT_PRODUCED, null);
     }
 
 }

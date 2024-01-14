@@ -40,6 +40,7 @@ public class ProcessorPool {
         }
     }
     public void returnProcessor(Processor processor) {
+        processor.setProductionChain(null);
         processorPool.get(processor.getName()).add(processor);
     }
 }

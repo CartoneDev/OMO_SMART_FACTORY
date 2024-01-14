@@ -5,5 +5,5 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.omo.core.SmartFactory;
 
 public interface SmartFactoryFactory {
-    public SmartFactory createSmartFactory(JsonNode config, ObjectMapper mapper);
+    public SmartFactory createSmartFactory(JsonNode config);
 }

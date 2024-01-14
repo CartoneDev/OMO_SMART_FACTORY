@@ -1,12 +1,12 @@
 package cz.cvut.fel.omo.factorial;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.omo.core.ProcessorPool;
 import cz.cvut.fel.omo.core.SmartFactory;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.Processor;
 import cz.cvut.fel.omo.utility.Config;
+import cz.cvut.fel.omo.utility.ProcessorBuilder;
 import lombok.extern.slf4j.XSlf4j;
 
 import java.util.ArrayList;
@@ -18,17 +18,29 @@ import java.util.HashMap;
 @XSlf4j(topic = "ABSTRACT_FACTORY")
 public class RegularSmartFactoryFactory implements SmartFactoryFactory{
     @Override
-    public SmartFactory createSmartFactory(JsonNode config, ObjectMapper mapper) {
+    public SmartFactory createSmartFactory(JsonNode config) {
         SmartFactory.reset();
-        HashMap<String, ArrayList<Processor>> processorPool = instantiateProcessorPool(config, mapper);
+        HashMap<String, ArrayList<Processor>> processorPool = instantiateProcessorPool(config);
+        processorPool.put("repairman", populateRepairmen(config.has("repairman") ? (config.get("repairman").intValue()):1));
         ProcessorPool processorPoolInstance = new ProcessorPool(processorPool);
-        ArrayList<ProductionChain> links = instantiateLinks(config, mapper, processorPoolInstance);
+        ArrayList<ProductionChain> links = instantiateLinks(config, processorPoolInstance);
+
+
         return SmartFactory.setInstance(processorPoolInstance,
                 links,
                 config.has("name") ? config.get("name").asText() : "Regular factory");
     }
 
-    private ArrayList<ProductionChain> instantiateLinks(JsonNode config, ObjectMapper mapper, ProcessorPool processorPoolInstance) {
+    private ArrayList<Processor> populateRepairmen(int i) {
+        ArrayList<Processor> repairman = new ArrayList<>();
+        for (int j =0; j < i; j++){
+            repairman.add( new ProcessorBuilder("worker").amount(1).name("repairman").build() );
+            repairman.get(j).setId(j);
+        }
+        return repairman;
+    }
+
+    private ArrayList<ProductionChain> instantiateLinks(JsonNode config, ProcessorPool processorPoolInstance) {
         ArrayList<ProductionChain> links = new ArrayList<>();
 
         if (!config.has("productionChains")) {
@@ -66,8 +78,14 @@ public class RegularSmartFactoryFactory implements SmartFactoryFactory{
                     productionChainInstance = null;
                     break;
                 }
+                productionChainInstance.addProcessors(processors);
             }
             if (productionChainInstance == null) { continue; }
+            productionChainInstance.setProduct(Config.getProduct(name, 0));
+            productionChainInstance.setPriority(priority);
+            productionChainInstance.setId(links.size());
+            productionChainInstance.setName("PC[" +links.size()+"]" + name);
+            links.add(productionChainInstance);
             successfullyConstructedProductionChains++;
         }
 
@@ -76,7 +94,7 @@ public class RegularSmartFactoryFactory implements SmartFactoryFactory{
         return links;
     }
 
-    private HashMap<String, ArrayList<Processor>> instantiateProcessorPool(JsonNode config, ObjectMapper mapper) {
+    private HashMap<String, ArrayList<Processor>> instantiateProcessorPool(JsonNode config) {
         Integer successfullyLoadedProcessors = 0;
         JsonNode processors = config.get("processors");
         Integer processorsCount = processors.size();

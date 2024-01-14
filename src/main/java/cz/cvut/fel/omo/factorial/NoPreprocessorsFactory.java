@@ -12,7 +12,7 @@ import cz.cvut.fel.omo.core.SmartFactory;
  */
 public class NoPreprocessorsFactory implements SmartFactoryFactory{
     @Override
-    public SmartFactory createSmartFactory(JsonNode config, ObjectMapper mapper) {
+    public SmartFactory createSmartFactory(JsonNode config) {
         return null;
     }
 }

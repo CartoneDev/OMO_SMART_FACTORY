@@ -1,14 +1,14 @@
-package cz.cvut.fel.omo.model.processor;
+package cz.cvut.fel.omo.core.event;
 
 import cz.cvut.fel.omo.core.event.Event;
 
 import java.util.ArrayList;
 
-public class WaybackMachine {
-    private final Processor initialState;
+public class WaybackMachine <T> {
+    private final T initialState;
 
     private ArrayList<Event> events;
-    public WaybackMachine(Processor init) {
+    public WaybackMachine(T init) {
         initialState = init;
         events = new ArrayList<>();
     }

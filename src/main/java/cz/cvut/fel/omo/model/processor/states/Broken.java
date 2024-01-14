@@ -7,6 +7,6 @@ import cz.cvut.fel.omo.model.processor.Processor;
 public class Broken extends ProcessorState{
     @Override
     public Event process(Processor processor) {
-        return Event.getEmptyEvent();
+        return new Event(EventType.PROCESSOR_HALTED, processor);
     }
 }

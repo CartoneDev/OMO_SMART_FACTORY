@@ -33,4 +33,9 @@ public class Clock { // conuter alike clock + date for reporting
     public Integer getTicks() {
         return ticks;
     }
+
+    @Override
+    public String toString(){
+        return ticks.toString();
+    }
 }

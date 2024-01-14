@@ -44,7 +44,7 @@ public class Config {
 
     private static JsonNode factoryConfig;
     @Getter
-    private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.0, 3.0);
+    private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.001, 0.01);
     // ---
 
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {
@@ -132,7 +132,7 @@ public class Config {
 
     public static SmartFactory buildFactory() {
         SmartFactoryFactory factoryFactory = (fastConfig ? new NoPreprocessorsFactory() : new RegularSmartFactoryFactory());
-        return factoryFactory.createSmartFactory(factoryConfig, new ObjectMapper());
+        return factoryFactory.createSmartFactory(factoryConfig);
     }
 
     public static boolean hasProcessor(String name) {

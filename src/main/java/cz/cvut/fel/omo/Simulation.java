@@ -16,7 +16,7 @@ public class Simulation {
 
     private static SmartFactory factory;
 
-    static Integer slowdown_ms = 350;
+    static Integer slowdown_ms = 100;
     static boolean processing = true;
     static boolean running = false;
     static Clock clock;
@@ -35,7 +35,10 @@ public class Simulation {
 
     static void run_simulation() {
         log.info("Simulation launched!");
+
         handleLoadConfig("-d"); // DEBUG ONLY
+        running = true;
+
         while (processing){
             // Maybe separate thread for input would be more appropriate
             handleInput();
@@ -46,6 +49,8 @@ public class Simulation {
                 }else{
                     log.error("Factory not initialized!");
                     handleSlowdown(slowdown_ms *3);
+                    log.info("Pausing simulation");
+                    running=false;
                 }
                 clock.tick();
                 handleSlowdown(slowdown_ms);
@@ -60,7 +65,7 @@ public class Simulation {
 
     private static void handleSlowdown(Integer slowdownms) {
         try {
-            Thread.sleep(Simulation.slowdown_ms);
+            Thread.sleep(slowdownms);
         } catch (InterruptedException e) {
             log.error("Error while sleeping!");
         }
@@ -88,8 +93,9 @@ public class Simulation {
                 handleHelp();
             } else if (input.startsWith("/slowdown")) {
                 handleSetSlowdown(input);
-            }
-            else if (input.startsWith("/report")) {
+            } else if (input.startsWith("/time")) {
+                handleShowTime();
+            } else if (input.startsWith("/report")) {
                 handlePrintReport(input);
 
             } else if (input.startsWith("/exit")) {
@@ -106,6 +112,10 @@ public class Simulation {
         }
 
 //
+    }
+
+    private static void handleShowTime() {
+        log.info("Current time passed is {} hours", clock.getTicks());
     }
 
     private static void handlePrintReport(String input) {
