@@ -108,7 +108,7 @@
 
   "factory": {
     "name": "Cybran T1 Land Factory",
-
+    "repairman": 3,
     "productionChains": [
       {
         "makes": "t1 cybran scout",

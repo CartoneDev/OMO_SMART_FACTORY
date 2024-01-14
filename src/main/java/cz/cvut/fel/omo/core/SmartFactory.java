@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.core;
 
+import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.model.ProductionChain;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
@@ -36,7 +37,7 @@ public class SmartFactory {
         this.links = links;
     }
 
-    public static SmartFactory setInstance() {
+    public static SmartFactory getInstance() {
         if (instance == null) {
             instance = new SmartFactory();
             log.debug("Empty factory has been initialized!");
@@ -58,8 +59,13 @@ public class SmartFactory {
         }
     }
 
+
     public void tick() {
         // each tick equals to 1 realtime hour
         links.forEach(ProductionChain::tick);
+    }
+
+    public void incidentHappend(Event event){
+
     }
 }

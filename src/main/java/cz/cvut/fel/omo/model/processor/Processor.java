@@ -1,9 +1,10 @@
 package cz.cvut.fel.omo.model.processor;
 
+import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.model.CostPH;
 import cz.cvut.fel.omo.core.Tickable;
+import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import cz.cvut.fel.omo.utility.ProcessorBuilder;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +19,8 @@ public abstract class Processor implements Tickable {
     private Double damage;
 
     private CostPH cost;
-    public void tick() {
-        state.tick();
+    public Event tick() {
+        return state.process(this);
     }
 
     public ProcessorBuilder toBuilder() {
