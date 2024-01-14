@@ -8,7 +8,7 @@ public class Clock { // conuter alike clock + date for reporting
         this.ticks = ticks;
     }
 
-    public Clock getTime() {
+    public static Clock getTime() {
         if (instance == null) {
             instance = new Clock(0);
         }

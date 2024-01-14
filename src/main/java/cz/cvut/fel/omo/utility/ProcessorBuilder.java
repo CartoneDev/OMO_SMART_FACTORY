@@ -12,7 +12,8 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 
 public class ProcessorBuilder {
-    Processor result;
+    private final Processor result;
+    private boolean noRef;
     @SneakyThrows
     public ProcessorBuilder (String type){
         result = switch (type) {
@@ -33,7 +34,12 @@ public class ProcessorBuilder {
         return this;
     }
 
-    public Processor build() { return result; }
+    public Processor build() {
+        if (!noRef) { // The initial state doesn't need an initial state
+            result.setWaybackMachine(new WaybackMachine(result.copy()));
+        }
+        return result;
+    }
 
     public ProcessorBuilder damage(Double damage) {
         this.result.setDamage(damage);
@@ -51,6 +57,11 @@ public class ProcessorBuilder {
 
     public ProcessorBuilder cost(CostPH costPH) {
         this.result.setCost(costPH);
+        return this;
+    }
+
+    public ProcessorBuilder noRef() {
+        this.noRef = true;
         return this;
     }
 }

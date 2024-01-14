@@ -1,10 +1,12 @@
 package cz.cvut.fel.omo.model.processor;
 
 import cz.cvut.fel.omo.core.event.Event;
+import cz.cvut.fel.omo.core.event.EventType;
 import cz.cvut.fel.omo.model.CostPH;
 import cz.cvut.fel.omo.core.Tickable;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import cz.cvut.fel.omo.utility.ProcessorBuilder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +21,13 @@ public abstract class Processor implements Tickable {
     private Double damage;
 
     private CostPH cost;
+
+    private Processor initialState = null;
+
+    private WaybackMachine waybackMachine;
+
     public Event tick() {
-        return state.process(this);
+        return eventHappened(state.process(this));
     }
 
     public ProcessorBuilder toBuilder() {
@@ -34,5 +41,16 @@ public abstract class Processor implements Tickable {
 
     public void dealDamage(Double damage) {
         this.damage += damage;
+    }
+
+    public Processor copy(){
+        return this.toBuilder().noRef().build();
+    }
+
+    private Event eventHappened(Event event){
+        if (EventType.isProcessorEvent(event.getType())) {
+            waybackMachine.eventHappened(event);
+        }
+        return event;
     }
 }

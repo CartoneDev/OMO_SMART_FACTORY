@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.core.event;
 
+import cz.cvut.fel.omo.core.Clock;
 import lombok.Getter;
 
 @Getter
@@ -9,10 +10,12 @@ import lombok.Getter;
 public class Event {
     private EventType type;
     private Object payload;
+    private Clock timestamp;
 
     public Event(EventType type, Object data) {
         this.type = type;
         this.payload = data;
+        timestamp = Clock.getTime();
     }
 
     public static Event getEvent(EventType type, Object data) {
