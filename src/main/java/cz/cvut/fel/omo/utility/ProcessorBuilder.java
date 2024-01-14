@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.cvut.fel.omo.model.CostPH;
 import cz.cvut.fel.omo.model.processor.*;
+import cz.cvut.fel.omo.model.processor.states.Initial;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import lombok.SneakyThrows;
 
@@ -44,7 +45,7 @@ public class ProcessorBuilder {
     }
 
     public ProcessorBuilder initState() {
-        this.result.setState(new ProcessorState());
+        this.result.setState(new Initial());
         return this;
     }
 

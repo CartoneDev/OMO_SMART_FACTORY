@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import cz.cvut.fel.omo.core.SmartFactory;
+import cz.cvut.fel.omo.core.decay.ProcessorDecayModel;
+import cz.cvut.fel.omo.core.decay.RandomDecayModel;
 import cz.cvut.fel.omo.factorial.NoPreprocessorsFactory;
 import cz.cvut.fel.omo.factorial.RegularSmartFactoryFactory;
 import cz.cvut.fel.omo.factorial.SmartFactoryFactory;
@@ -17,11 +19,13 @@ import cz.cvut.fel.omo.utility.deserializers.MaterialDeserializer;
 import cz.cvut.fel.omo.utility.deserializers.ProcessorDeserializer;
 import cz.cvut.fel.omo.utility.deserializers.ProductDeserializer;
 import cz.cvut.fel.omo.utility.deserializers.ProductionChainDeserializer;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -39,6 +43,8 @@ public class Config {
     private static boolean fastConfig = false;
 
     private static JsonNode factoryConfig;
+    @Getter
+    private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.0, 3.0);
     // ---
 
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {

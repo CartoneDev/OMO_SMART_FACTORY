@@ -31,4 +31,8 @@ public abstract class Processor implements Tickable {
                         .damage(damage)
                         .cost(cost);
     }
+
+    public void dealDamage(Double damage) {
+        this.damage += damage;
+    }
 }

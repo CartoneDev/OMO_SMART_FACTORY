@@ -15,4 +15,15 @@ public class Event {
         this.payload = data;
     }
 
+    public static Event getEvent(EventType type, Object data) {
+        return new Event(type,data);
+    }
+
+    public static Event getEvent(EventType type) {
+        return new Event(type, null);
+    }
+
+    public static Event getEmptyEvent() {
+        return new Event(EventType.EMPTY, null);
+    }
 }

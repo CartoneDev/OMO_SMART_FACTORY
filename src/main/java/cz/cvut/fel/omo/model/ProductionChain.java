@@ -32,7 +32,6 @@ public class ProductionChain {
     }
 
     public void tick() {
-        for (int producedCount = 0; producedCount < product.getAmount(); producedCount++) {
             Event e = null;
             for (Processor processor : processors) {
 
@@ -45,17 +44,15 @@ public class ProductionChain {
             }
             if (e != null) {
               if (e.getType() == EventType.PROCESSOR_BROKEN){
-                  log.info("Production chain " + name + " is broken");
+                  log.info("Production chain {}" + name + " is broken", id);
                   log.info("Incident will be reported");
                   SmartFactory.getInstance().incidentHappend(e);
-                  break;
               }else if (e.getType() == EventType.PROCESSOR_HALTED){
                   // Broken processor be halted till repaired
               }
             }
         }
-        SmartFactory.getInstance();
-    }
+
 
     public void addProcessor(Processor processor) {
         processors.add(processor);
