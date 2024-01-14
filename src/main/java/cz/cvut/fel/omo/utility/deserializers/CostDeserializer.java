@@ -1,10 +1,11 @@
-package cz.cvut.fel.omo.utility;
+package cz.cvut.fel.omo.utility.deserializers;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.cvut.fel.omo.model.CostPH;
+import cz.cvut.fel.omo.utility.Config;
 
 import java.io.IOException;
 

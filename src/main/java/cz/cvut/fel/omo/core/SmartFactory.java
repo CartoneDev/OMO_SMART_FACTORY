@@ -1,28 +1,65 @@
 package cz.cvut.fel.omo.core;
 
 import cz.cvut.fel.omo.model.ProductionChain;
+import lombok.Getter;
+import lombok.extern.slf4j.XSlf4j;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+
+@XSlf4j(topic = "FACTORY")
 public class SmartFactory {
     private static SmartFactory instance;
-
-    private HashMap<Integer, ProductionChain> links;
-
+    @Getter
+    private final String name;
+    ProcessorPool processorPool = new ProcessorPool(new HashMap<>());
+    ArrayList<ProductionChain> links = new ArrayList<>();
     private SmartFactory() {
+        this.name = "Empty factory";
         if (instance != null) {
-            throw new IllegalStateException("Already instantiated");
+            log.error("Trying to instantiate second singleton instance!");
+            return;
         }
         instance = this;
     }
-    public static SmartFactory getInstance() {
+
+
+    private SmartFactory(ProcessorPool processorPool, ArrayList<ProductionChain> links, String name) {
+        this.name = name;
+        if (instance != null) {
+            log.error("Trying to instantiate second singleton instance!");
+            return;
+        }
+        instance = this;
+        this.processorPool = processorPool;
+        this.links = links;
+    }
+
+    public static SmartFactory setInstance() {
         if (instance == null) {
-            new SmartFactory();
+            instance = new SmartFactory();
+            log.debug("Empty factory has been initialized!");
+        }
+        return instance;
+    }
+    public static SmartFactory setInstance(ProcessorPool processorPool, ArrayList<ProductionChain> links, String name) {
+        if (instance == null) {
+            instance = new SmartFactory(processorPool, links, name);
+            log.info((name.isEmpty() ? name : name.substring(0, 1).toUpperCase() + name.substring(1) ) + " initialized!");
         }
         return instance;
     }
 
-    public void tick() { // each tick equals to 1 realtime hour
-        links.forEach((k, v) -> v.tick());
+    public static void reset() {
+        if (instance != null) {
+            instance = null;
+            log.info("Reseting SmartFactory setup");
+        }
+    }
+
+    public void tick() {
+        // each tick equals to 1 realtime hour
+        links.forEach(ProductionChain::tick);
     }
 }

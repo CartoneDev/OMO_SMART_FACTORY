@@ -1,10 +1,11 @@
-package cz.cvut.fel.omo.utility;
+package cz.cvut.fel.omo.utility.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import cz.cvut.fel.omo.model.ProductionChain;
+import cz.cvut.fel.omo.utility.Config;
 
 public class ProductionChainDeserializer extends StdDeserializer<ProductionChain> {
 

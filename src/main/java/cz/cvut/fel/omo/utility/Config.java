@@ -5,10 +5,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import cz.cvut.fel.omo.core.SmartFactory;
+import cz.cvut.fel.omo.factorial.NoPreprocessorsFactory;
+import cz.cvut.fel.omo.factorial.RegularSmartFactoryFactory;
+import cz.cvut.fel.omo.factorial.SmartFactoryFactory;
 import cz.cvut.fel.omo.model.Material;
 import cz.cvut.fel.omo.model.Product;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.Processor;
+import cz.cvut.fel.omo.utility.deserializers.MaterialDeserializer;
+import cz.cvut.fel.omo.utility.deserializers.ProcessorDeserializer;
+import cz.cvut.fel.omo.utility.deserializers.ProductDeserializer;
+import cz.cvut.fel.omo.utility.deserializers.ProductionChainDeserializer;
 import lombok.Setter;
 
 import java.io.File;
@@ -17,6 +25,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 
+/**
+ * Utility static class responsible for loading and storing all the configuration data.
+ */
 public class Config {
 
     // --- Images ---
@@ -49,12 +60,11 @@ public class Config {
 
 
         loadMaterials(jsonNode.get("materials"), mapper);
-//        processors
+
         loadProcessors(jsonNode.get("processors"), mapper);
 
         loadProducts(jsonNode.get("products"), mapper);
 
-//                materials
 //        blueprints
         loadBlueprints(jsonNode.get("blueprints"), mapper);
 //                factory
@@ -91,17 +101,15 @@ public class Config {
     }
     public static void loadFactory(JsonNode jsonNode, ObjectMapper mapper) {
         factoryConfig = jsonNode;
-
-
     }
 
-    public static Material getMaterial(String s, int anInt) {
-        return materials.get(s).toBuilder().amount(anInt).build();
+    public static Material getMaterial(String s, int amount) {
+        return materials.get(s).toBuilder().amount(amount).build();
     }
 
-    public static Processor getProcessor(String s, int anInt) {
+    public static Processor getProcessor(String s, int amount) {
         Processor processor = processors.get(s);
-        return processor.toBuilder().amount(anInt).build();
+        return processor.toBuilder().amount(amount).build();
 }
 
     public static Product getProduct(String productName, int amount) {
@@ -114,5 +122,22 @@ public class Config {
         materials.clear();
         blueprints.clear();
         products.clear();
+    }
+
+    public static SmartFactory buildFactory() {
+        SmartFactoryFactory factoryFactory = (fastConfig ? new NoPreprocessorsFactory() : new RegularSmartFactoryFactory());
+        return factoryFactory.createSmartFactory(factoryConfig, new ObjectMapper());
+    }
+
+    public static boolean hasProcessor(String name) {
+        return processors.containsKey(name);
+    }
+
+    public static boolean hasBlueprintFor(String name) {
+        return blueprints.containsKey(name);
+    }
+
+    public static ProductionChain getBlueprintFor(String product) {
+        return blueprints.get(product);
     }
 }

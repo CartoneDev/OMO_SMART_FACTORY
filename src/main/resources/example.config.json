@@ -109,7 +109,7 @@
   "factory": {
     "name": "Cybran T1 Land Factory",
 
-    "chains": [
+    "productionChains": [
       {
         "makes": "t1 cybran scout",
         "priority": 10

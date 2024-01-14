@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.utility;
+package cz.cvut.fel.omo.utility.deserializers;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
