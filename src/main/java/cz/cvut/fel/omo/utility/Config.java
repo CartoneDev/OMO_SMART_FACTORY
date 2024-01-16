@@ -44,7 +44,7 @@ public class Config {
 
     private static JsonNode factoryConfig;
     @Getter
-    private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.001, 0.01);
+    private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.0001, 0.005);
     // ---
 
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {

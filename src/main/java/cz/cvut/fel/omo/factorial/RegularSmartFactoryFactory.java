@@ -32,12 +32,13 @@ public class RegularSmartFactoryFactory implements SmartFactoryFactory{
     }
 
     private ArrayList<Processor> populateRepairmen(int i) {
-        ArrayList<Processor> repairman = new ArrayList<>();
+        ArrayList<Processor> repairmen = new ArrayList<>();
         for (int j =0; j < i; j++){
-            repairman.add( new ProcessorBuilder("worker").amount(1).name("repairman").build() );
-            repairman.get(j).setId(j);
+            repairmen.add( new ProcessorBuilder("worker").initState().amount(1).name("repairman").build() );
+            repairmen.get(j).setId(j);
         }
-        return repairman;
+
+        return repairmen;
     }
 
     private ArrayList<ProductionChain> instantiateLinks(JsonNode config, ProcessorPool processorPoolInstance) {
@@ -85,6 +86,7 @@ public class RegularSmartFactoryFactory implements SmartFactoryFactory{
             productionChainInstance.setPriority(priority);
             productionChainInstance.setId(links.size());
             productionChainInstance.setName("PC[" +links.size()+"]" + name);
+            productionChainInstance.registerProcessors();
             links.add(productionChainInstance);
             successfullyConstructedProductionChains++;
         }

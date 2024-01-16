@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.core;
 
 import cz.cvut.fel.omo.core.event.Event;
+import cz.cvut.fel.omo.core.event.PriorityEvent;
 import cz.cvut.fel.omo.model.ProductionChain;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
@@ -15,6 +16,8 @@ public class SmartFactory {
     @Getter
     private final String name;
     ProcessorPool processorPool = new ProcessorPool(new HashMap<>());
+
+    private Maintenance maintenance;
     ArrayList<ProductionChain> links = new ArrayList<>();
     private SmartFactory() {
         this.name = "Empty factory";
@@ -33,6 +36,7 @@ public class SmartFactory {
             return;
         }
         instance = this;
+        this.maintenance = new Maintenance(processorPool);
         this.processorPool = processorPool;
         this.links = links;
     }
@@ -61,11 +65,22 @@ public class SmartFactory {
 
 
     public void tick() {
+        maintenance.tick();
         // each tick equals to 1 realtime hour
         links.forEach(ProductionChain::tick);
     }
 
-    public void incidentHappend(Event event){
+    public void incidentHappened(PriorityEvent event){
+        maintenance.incidentReported(event);
+    }
+
+    public void printStatus() {
+        for (ProductionChain link : links) {
+            link.printStatus();
+        }
+    }
+
+    public void productProduced(Event event) {
 
     }
 }

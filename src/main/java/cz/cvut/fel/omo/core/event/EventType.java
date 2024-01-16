@@ -9,6 +9,7 @@ public enum EventType {
     PROCESSOR_REPAIRED,
     PROCESSOR_ASSIGNED,
     PROCESSOR_UNASSIGNED,
+    PROCESSOR_START_REPAIR,
     MATERIAL_SPENT;
 
     public Event getEvent() {

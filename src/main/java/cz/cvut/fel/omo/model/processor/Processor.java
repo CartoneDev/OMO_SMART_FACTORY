@@ -2,18 +2,20 @@ package cz.cvut.fel.omo.model.processor;
 
 import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.EventType;
+import cz.cvut.fel.omo.core.event.PriorityEvent;
 import cz.cvut.fel.omo.core.event.WaybackMachine;
 import cz.cvut.fel.omo.model.CostPH;
-import cz.cvut.fel.omo.core.Tickable;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
+import cz.cvut.fel.omo.utility.Config;
 import cz.cvut.fel.omo.utility.ProcessorBuilder;
+import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Processor implements Tickable {
+public abstract class Processor {
     private Integer id;
     private String name;
     private String type;
@@ -30,7 +32,14 @@ public abstract class Processor implements Tickable {
     private WaybackMachine waybackMachine;
 
     public Event tick() {
-        return eventHappened(state.process(this));
+        if (isBroken()) {
+            Integer priority = productionChain!=null?productionChain.getPriority():0;
+            Event e = new PriorityEvent(EventType.PROCESSOR_BROKEN, this, priority);
+            addEvent(e);
+            return e;
+        }
+        Config.getDecayModel().decay(this);
+	    return Event.getEmptyEvent();
     }
 
     public ProcessorBuilder toBuilder() {
@@ -50,10 +59,29 @@ public abstract class Processor implements Tickable {
         return this.toBuilder().noRef().build();
     }
 
-    private Event eventHappened(Event event){
-        if (EventType.isProcessorEvent(event.getType())) {
-            waybackMachine.eventHappened(event);
-        }
-        return event;
+    public void addEvent(Event event) {
+        waybackMachine.eventHappened(event);
+        state=state.consume(this, event);
+    }
+
+    public boolean isAssigned() {
+        return productionChain != null;
+    }
+
+    public void printStatus() {
+        System.out.println("Processor " + name + " is " + state + " and has " + damage*100 + " wear off");
+    }
+
+    public boolean isBroken() {
+        return  ((this.getDamage() > 0.8) && (new Random().nextDouble() > 0.85)) ||
+                ((this.getDamage() > 0.6) && (new Random().nextDouble() > 0.99));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s %.2f%% damaged %s",
+                state, name, type, damage * 100,
+                (isAssigned()) ? String.format(" assigned to %s[%d]",
+                        productionChain.getProduct().getName(), productionChain.getId()) : "");
     }
 }

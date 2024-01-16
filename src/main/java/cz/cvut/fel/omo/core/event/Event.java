@@ -2,6 +2,7 @@ package cz.cvut.fel.omo.core.event;
 
 import cz.cvut.fel.omo.core.Clock;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 /**
@@ -10,7 +11,11 @@ import lombok.Getter;
 public class Event {
     private EventType type;
     private Object payload;
+    @Setter
+    private Object solver;
+
     private Clock timestamp;
+
 
     public Event(EventType type, Object data) {
         this.type = type;

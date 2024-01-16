@@ -2,19 +2,20 @@ package cz.cvut.fel.omo.model.processor.states;
 
 import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.EventType;
+import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.Processor;
+
+import java.util.Objects;
 
 /**
  * Once processor is added to the production chain, it is in the initial state.
  */
 public class Initial extends ProcessorState{
     @Override
-    public Event process(Processor processor) {
-        processor.setState(new Processing());
-        return new Event(EventType.PROCESSOR_STARTED, processor);
-    }
-    @Override
-    public boolean equals(ProcessorState other) {
-        return this.getClass() == other.getClass();
+    public ProcessorState consume(Processor processor, Event event) {
+        if (Objects.requireNonNull(event.getType()) == EventType.PROCESSOR_ASSIGNED) {
+            return handleAssigned(processor, event);
+        }
+        return this;
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -20,7 +21,8 @@ public class Material {
 
     // Converts value of an amount of material to value of 1 unit of material
     public void unitize() {
-        value = value.divide(BigDecimal.valueOf(amount));
+
+        value = value.divide(BigDecimal.valueOf(amount), RoundingMode.HALF_UP);
         amount = 1;
     }
 }

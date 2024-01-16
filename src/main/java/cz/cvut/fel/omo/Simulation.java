@@ -16,7 +16,7 @@ public class Simulation {
 
     private static SmartFactory factory;
 
-    static Integer slowdown_ms = 100;
+    static Integer slowdown_ms = 350;
     static boolean processing = true;
     static boolean running = false;
     static Clock clock;
@@ -74,7 +74,6 @@ public class Simulation {
     private static void handleInput() {
         try {
             if (! (System.in.available() > 0)) return; // Don't block main thread
-            log.debug("Input detected pausing simulation");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             if (input.startsWith("/loadConfig")) {
@@ -95,6 +94,8 @@ public class Simulation {
                 handleSetSlowdown(input);
             } else if (input.startsWith("/time")) {
                 handleShowTime();
+            } else if (input.startsWith("/status")) {
+                factory.printStatus();
             } else if (input.startsWith("/report")) {
                 handlePrintReport(input);
 
@@ -173,8 +174,9 @@ public class Simulation {
         log.info("/tick <ticks> - runs given number of ticks, 1 by default");
         handleSlowdown(250);
         log.info("/slowdown <ms> - sets simulation slowdown in ms, 350 by default");
-
         handleSlowdown(350);
+        log.info("/time - shows current time passed");
+
     }
 
     private static void handleTick(String input) {
@@ -201,6 +203,7 @@ public class Simulation {
             try {
 
             log.info("Loading default config");
+//            Config.loadConfig("src/main/resources/30.plus.json");
             Config.loadConfig("src/main/resources/example.config.json");
         }catch (FileNotFoundException e) {
             log.error("Config file not found!");

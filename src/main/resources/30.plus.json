@@ -6,27 +6,29 @@
       "description": "adds new blizzard addition to the game",
       "costPH": {
         "electricity": 1600,
-        "money": 1303
+        "money": 1303,
+        "brain power": 120
       }
     },
     {
       "name": "diablo 2000",
-      "type": "shit",
+      "type": "game",
       "description": "new game for wide auditory",
       "costPH": {
         "electricity": 2423,
         "money": 2314,
-        "brain power": 2314
+        "brain power": 100
       }
     },
     {
       "name": "jojo baidon",
-      "type": "president",
-      "description": "jooooojooooo baiden",
+      "type": "king",
+      "description": "jooooojooooo baidon",
       "costPH": {
         "electricity": 1604,
         "money": 1756,
-        "psycho-physical": 780
+        "psycho-physical": 1,
+        "oil": 500
       }
     },
     {
@@ -36,10 +38,10 @@
       "costPH": {
         "electricity": 1000,
         "money": 2345,
-        "pens": 300,
+        "pen": 300,
         "paper": 800,
         "water": 558,
-        "brain power": 234
+        "brain power": 134
       }
     }
   ],
@@ -59,7 +61,8 @@
       "description": "automatically write code",
       "costPH": {
         "electricity": 50,
-        "money": 450
+        "money": 450,
+        "oil": 60
       }
     },
     {
@@ -113,7 +116,8 @@
       "description": "design the characters' appearances on request",
       "costPH": {
         "electricity": 70,
-        "money": 330
+        "money": 330,
+        "oil": 50
       }
     },
     {
@@ -122,7 +126,8 @@
       "description": "develops the storyline on request",
       "costPH": {
         "electricity": 100,
-        "money": 250
+        "money": 250,
+        "oil": 100
       }
     },
     {
@@ -158,7 +163,8 @@
       "description": "funk machine",
       "costPH": {
         "electricity": 50,
-        "money": 450
+        "money": 450,
+        "oil": 200
       }
     },
     {
@@ -176,7 +182,8 @@
       "description": "machine that makes robot",
       "costPH": {
         "electricity": 80,
-        "money": 900
+        "money": 900,
+        "oil": 150
       }
     },
     {
@@ -185,7 +192,8 @@
       "description": "machine that makes electric parts",
       "costPH": {
         "electricity": 20,
-        "money": 150
+        "money": 150,
+        "oil": 70
       }
     }
   ]
@@ -208,75 +216,314 @@
     {
       "name" : "brain power",
       "type" : "brain power",
-      "value": 5,
+      "value": 100,
+      "amount": 6
+    },
+    {
+      "name" : "psycho-physical",
+      "type" : "psycho-physical",
+      "value": 500,
+      "description" : "immaterial essence inherent to an individual, possessing individuality, consciousness, and emotions",
+      "amount": 1
+    },
+    {
+      "name" : "oil",
+      "type" : "oil",
+      "value": 50,
       "amount": 10
     },
     {
-      "name" : "brain power",
-      "type" : "brain power",
+      "type" : "pen",
+      "value": 100,
+      "amount": 1,
+      "name" : "pen"
+    },
+    {
+      "type" : "water",
       "value": 5,
-      "amount": 10
+      "amount": 1,
+      "name" : "water"
+    },
+    {
+      "type" : "paper",
+      "value": 70,
+      "amount": 2,
+      "name" : "paper"
     }
   ]
 ,
   "blueprints": [
     {
-      "name": "t1 cybran scout",
-      "amount": 200,
+      "name": "new blizzard add-on",
+      "amount": 26,
 
       "processors" : [
         {
-          "name": "alliance worker",
-          "amount": 5
+          "name": "junior developer",
+          "amount": 10
         },
         {
-          "name": "t1 cybran engineer",
+          "name": "automatic copilot-like robot",
+          "amount": 4
+        },
+        {
+          "name": "Mid-Level Developer",
+          "amount": 6
+        },
+        {
+          "name": "Senior Developer",
+          "amount": 4
+        },
+        {
+          "name": "Architect",
           "amount": 2
         },
         {
-          "name": "4d mass printer",
+          "name": "Team Lead",
           "amount": 1
         }
       ]
     },
     {
-      "name": "t1 radar",
-      "amount": 100,
+      "name": "diablo 2000",
+      "amount": 54,
 
       "processors" : [
         {
-          "name": "alliance worker",
-          "amount": 25
+          "name": "junior developer",
+          "amount": 20
         },
         {
-          "name": "t1 cybran engineer",
+          "name": "automatic copilot-like robot",
+          "amount": 5
+        },
+        {
+          "name": "Mid-Level Developer",
+          "amount": 8
+        },
+        {
+          "name": "Senior Developer",
+          "amount": 4
+        },
+        {
+          "name": "Animator",
           "amount": 10
+        },
+        {
+          "name": "Character Designer LLM",
+          "amount": 3
+        },
+        {
+          "name": "Storyboard Artist",
+          "amount": 2
+        },
+        {
+          "name": "Producer",
+          "amount": 2
+        },
+        {
+          "name": "Voice Actor",
+          "amount": 3
+        },
+        {
+          "name": "Architect",
+          "amount": 4
+        },
+        {
+          "name": "Team Lead",
+          "amount": 4
+        },
+        {
+          "name": "Director",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "name": "jojo baidon",
+      "amount": 252,
+
+      "processors" : [
+        {
+          "name": "junior developer",
+          "amount": 100
+        },
+        {
+          "name": "automatic copilot-like robot",
+          "amount": 20
+        },
+        {
+          "name": "Mid-Level Developer",
+          "amount": 50
+        },
+        {
+          "name": "Senior Developer",
+          "amount": 30
+        },
+        {
+          "name": "Animator",
+          "amount": 50
+        },
+        {
+          "name": "Character Designer LLM",
+          "amount": 20
+        },
+        {
+          "name": "Robotics Production Unit",
+          "amount": 10
+        },
+        {
+          "name": "Voice Actor",
+          "amount": 20
+        },
+        {
+          "name": "Electronics Assembly Robot",
+          "amount": 20
+        },
+        {
+          "name": "Team Lead",
+          "amount": 4
+        },
+        {
+          "name": "Director",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "name": "anime cats woman rice 500 socials credits",
+      "amount": 147,
+
+      "processors" : [
+        {
+          "name": "Animator",
+          "amount": 30
+        },
+        {
+          "name": "Character Designer LLM",
+          "amount": 7
+        },
+        {
+          "name": "Scriptwriter LLM",
+          "amount": 4
+        },
+        {
+          "name": "Storyboard Artist",
+          "amount": 4
+        },
+        {
+          "name": "Producer",
+          "amount": 5
+        },
+        {
+          "name": "funk machine",
+          "amount": 10
+        },
+        {
+          "name": "Voice Actor",
+          "amount": 5
+        },
+        {
+          "name": "Architect",
+          "amount": 10
+        },
+        {
+          "name": "Team Lead",
+          "amount": 4
+        },
+        {
+          "name": "Director",
+          "amount": 2
         }
       ]
     }
   ],
 
   "factory": {
-    "name": "Cybran T1 Land Factory",
-    "repairman": 3,
+    "name": "makes anything",
+    "repairman": 20,
     "productionChains": [
       {
-        "makes": "t1 cybran scout",
+        "makes": "anime cats woman rice 500 socials credits",
+        "priority": 100
+      },
+      {
+        "makes": "jojo baidon",
+        "priority": 5
+      },
+      {
+        "makes": "diablo 2000",
+        "priority": 150
+      },
+      {
+        "makes": "new blizzard add-on",
         "priority": 10
       }
     ],
     "processors": [
       {
-        "name": "alliance worker",
+        "name": "junior developer",
+        "amount": 130
+      },
+      {
+        "name": "automatic copilot-like robot",
+        "amount": 29
+      },
+      {
+        "name": "Mid-Level Developer",
+        "amount": 64
+      },
+      {
+        "name": "Senior Developer",
+        "amount": 38
+      },
+      {
+        "name": "Team Lead",
+        "amount": 13
+      },
+      {
+        "name": "Architect",
+        "amount": 16
+      },
+      {
+        "name": "Animator",
+        "amount": 90
+      },
+      {
+        "name": "Character Designer LLM",
         "amount": 30
       },
       {
-        "name": "t1 cybran engineer",
-        "amount": 15
+        "name": "Scriptwriter LLM",
+        "amount": 4
       },
       {
-        "name": "4d mass printer",
+        "name": "Storyboard Artist",
+        "amount": 6
+      },
+      {
+        "name": "Director",
         "amount": 5
+      },
+      {
+        "name": "Producer",
+        "amount": 7
+      },
+      {
+        "name": "funk machine",
+        "amount": 10
+      },
+      {
+        "name": "Voice Actor",
+        "amount": 28
+      },
+      {
+        "name": "Robotics Production Unit",
+        "amount": 10
+      },
+      {
+        "name": "Electronics Assembly Robot",
+        "amount": 20
       }
     ]
   }

@@ -4,9 +4,14 @@ import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.EventType;
 import cz.cvut.fel.omo.model.processor.Processor;
 
+import java.util.Objects;
+
 public class Broken extends ProcessorState{
     @Override
-    public Event process(Processor processor) {
-        return new Event(EventType.PROCESSOR_HALTED, processor);
+    public ProcessorState consume(Processor processor, Event event) {
+        if (Objects.requireNonNull(event.getType()) == EventType.PROCESSOR_START_REPAIR) {
+            return new BeingRepaired();
+        }
+        return this;
     }
 }

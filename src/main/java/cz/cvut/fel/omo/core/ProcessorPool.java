@@ -43,4 +43,8 @@ public class ProcessorPool {
         processor.setProductionChain(null);
         processorPool.get(processor.getName()).add(processor);
     }
+
+    public int getPoolSize(String name) {
+        return processorPool.get(name).size();
+    }
 }
