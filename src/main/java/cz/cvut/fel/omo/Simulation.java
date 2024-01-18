@@ -96,9 +96,10 @@ public class Simulation {
                 handleShowTime();
             } else if (input.startsWith("/status")) {
                 factory.printStatus();
+            } else if (input.startsWith("/visit")) {
+                handleVisit(input);
             } else if (input.startsWith("/report")) {
                 handlePrintReport(input);
-
             } else if (input.startsWith("/exit")) {
                 processing = false;
             } else {
@@ -113,6 +114,24 @@ public class Simulation {
         }
 
 //
+    }
+
+    private static void handleVisit(String input) {
+        String[] args = input.split(" ");
+        if (args.length < 2) {
+            log.error("No visitor specified!");
+            return;
+        }
+        String visitor = args[1];
+        if (visitor.equals("inspector")) {
+            log.info("Visiting with inspector gadget");
+            factory.inspect();
+        } else if (visitor.equals("director")) {
+            log.info("Visiting with director");
+            factory.direct();
+        } else {
+            log.error("Unknown visitor!");
+        }
     }
 
     private static void handleShowTime() {

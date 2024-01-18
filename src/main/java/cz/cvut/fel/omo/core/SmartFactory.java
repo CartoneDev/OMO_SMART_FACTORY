@@ -2,6 +2,10 @@ package cz.cvut.fel.omo.core;
 
 import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.PriorityEvent;
+import cz.cvut.fel.omo.core.visitor.Director;
+import cz.cvut.fel.omo.core.visitor.InspectorGadget;
+import cz.cvut.fel.omo.core.visitor.Visitable;
+import cz.cvut.fel.omo.core.visitor.Visitor;
 import cz.cvut.fel.omo.model.ProductionChain;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
@@ -11,13 +15,14 @@ import java.util.HashMap;
 
 
 @XSlf4j(topic = "FACTORY")
-public class SmartFactory {
+public class SmartFactory implements Visitable {
     private static SmartFactory instance;
     @Getter
     private final String name;
     ProcessorPool processorPool = new ProcessorPool(new HashMap<>());
 
     private Maintenance maintenance;
+    @Getter
     ArrayList<ProductionChain> links = new ArrayList<>();
     private SmartFactory() {
         this.name = "Empty factory";
@@ -82,5 +87,18 @@ public class SmartFactory {
 
     public void productProduced(Event event) {
 
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    public void inspect() {
+        this.accept(new InspectorGadget());
+    }
+
+    public void direct() {
+        this.accept(new Director());
     }
 }

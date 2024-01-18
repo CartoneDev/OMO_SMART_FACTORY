@@ -1,9 +1,8 @@
 package cz.cvut.fel.omo.model.processor;
 
-import cz.cvut.fel.omo.core.event.Event;
-import cz.cvut.fel.omo.core.event.EventType;
-import cz.cvut.fel.omo.core.event.PriorityEvent;
+import cz.cvut.fel.omo.core.event.*;
 import cz.cvut.fel.omo.core.event.WaybackMachine;
+import cz.cvut.fel.omo.core.visitor.Visitable;
 import cz.cvut.fel.omo.model.CostPH;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
@@ -15,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Processor {
+public abstract class Processor implements Timed, Copyable, Visitable {
     private Integer id;
     private String name;
     private String type;
@@ -69,7 +68,8 @@ public abstract class Processor {
     }
 
     public void printStatus() {
-        System.out.println("Processor " + name + " is " + state + " and has " + damage*100 + " wear off");
+        String formatedDamage = String.format("%.2f", damage * 100);
+        System.out.println("Processor " + name + " is " + state + " and has " + formatedDamage + "% wear off");
     }
 
     public boolean isBroken() {

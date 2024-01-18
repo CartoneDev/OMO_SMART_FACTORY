@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import cz.cvut.fel.omo.core.SmartFactory;
+import cz.cvut.fel.omo.core.Tickable;
 import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.core.event.EventType;
 import cz.cvut.fel.omo.core.event.PriorityEvent;
+import cz.cvut.fel.omo.core.visitor.Visitable;
+import cz.cvut.fel.omo.core.visitor.Visitor;
 import cz.cvut.fel.omo.model.processor.Processor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +17,8 @@ import lombok.extern.slf4j.XSlf4j;
 
 @Getter
 @Setter
-@XSlf4j (topic = "ProductionChain")
-public class ProductionChain {
+@XSlf4j (topic = "PROD_CHAIN")
+public class ProductionChain implements Visitable {
     private Integer priority;
     private Integer id;
     private String name;
@@ -109,5 +112,10 @@ public class ProductionChain {
     public void unregisterProcessor(Processor p){
         Event e = new Event(EventType.PROCESSOR_UNASSIGNED, this);
         p.addEvent(e);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }
