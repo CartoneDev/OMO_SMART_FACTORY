@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.model.processor;
 
+import cz.cvut.fel.omo.core.Clock;
 import cz.cvut.fel.omo.core.event.*;
 import cz.cvut.fel.omo.core.event.WaybackMachine;
 import cz.cvut.fel.omo.core.visitor.Visitable;
@@ -8,13 +9,15 @@ import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import cz.cvut.fel.omo.utility.Config;
 import cz.cvut.fel.omo.utility.ProcessorBuilder;
+
+import java.util.Objects;
 import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Processor implements Timed, Copyable, Visitable {
+public abstract class Processor implements Timed, Copyable, Visitable, EventSource {
     private Integer id;
     private String name;
     private String type;
@@ -33,7 +36,7 @@ public abstract class Processor implements Timed, Copyable, Visitable {
     public Event tick() {
         if (isBroken()) {
             Integer priority = productionChain!=null?productionChain.getPriority():0;
-            Event e = new PriorityEvent(EventType.PROCESSOR_BROKEN, this, priority);
+            Event e = new PriorityEvent(EventType.PROCESSOR_BROKEN, this, priority, this);
             addEvent(e);
             return e;
         }
@@ -59,7 +62,7 @@ public abstract class Processor implements Timed, Copyable, Visitable {
     }
 
     public void addEvent(Event event) {
-        waybackMachine.eventHappened(event);
+        if (waybackMachine!=null) waybackMachine.eventHappened(event);
         state=state.consume(this, event);
     }
 
@@ -67,9 +70,23 @@ public abstract class Processor implements Timed, Copyable, Visitable {
         return productionChain != null;
     }
 
-    public void printStatus() {
-        String formatedDamage = String.format("%.2f", damage * 100);
-        System.out.println("Processor " + name + " is " + state + " and has " + formatedDamage + "% wear off");
+    public void printStatus(Integer time) {
+        String toPrint;
+        if (Objects.equals(time, Clock.getTime().getTicks())){
+            toPrint = getStatus();
+        }else{
+            toPrint = getStatusAt(time);
+        }
+        System.out.println(toPrint);
+    }
+
+    protected String getStatus(){
+        String formattedDamage = String.format("%.2f", damage * 100);
+        return "Processor " + name + " is " + state + " and has " + formattedDamage + "% wear off";
+    }
+
+    public String getStatusAt(Integer time){
+        return ((Processor)waybackMachine.goBackTo(time)).getStatus().split(" and has ")[0];
     }
 
     public boolean isBroken() {
@@ -83,5 +100,9 @@ public abstract class Processor implements Timed, Copyable, Visitable {
                 state, name, type, damage * 100,
                 (isAssigned()) ? String.format(" assigned to %s[%d]",
                         productionChain.getProduct().getName(), productionChain.getId()) : "");
+    }
+    @Override
+    public String getReportDescriptor() {
+        return "Processor " + name + " " + type + " #" + id;
     }
 }

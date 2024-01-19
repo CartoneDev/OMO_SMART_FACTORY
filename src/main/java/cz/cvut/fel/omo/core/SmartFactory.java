@@ -19,6 +19,7 @@ public class SmartFactory implements Visitable {
     private static SmartFactory instance;
     @Getter
     private final String name;
+    @Getter
     ProcessorPool processorPool = new ProcessorPool(new HashMap<>());
 
     private Maintenance maintenance;
@@ -79,9 +80,9 @@ public class SmartFactory implements Visitable {
         maintenance.incidentReported(event);
     }
 
-    public void printStatus() {
+    public void printStatus(Integer time) {
         for (ProductionChain link : links) {
-            link.printStatus();
+            link.printStatus(time);
         }
     }
 

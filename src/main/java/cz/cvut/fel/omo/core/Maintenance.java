@@ -38,7 +38,7 @@ public class Maintenance {
             handleProcessorRepair(p, toRepair);
 
             if (toRepair.getDamage() < new Random().nextDouble() * 0.15) {
-                Event repaired = new Event(EventType.PROCESSOR_REPAIRED, p);
+                Event repaired = new Event(EventType.PROCESSOR_REPAIRED, toRepair, p);
                 toRepair.addEvent(repaired);
                 e.setSolver(repaired);
                 iterator.remove();
@@ -96,7 +96,7 @@ public class Maintenance {
             Processor p = repairSquad.remove(0);
             Processor toRepair = (Processor) e.getPayload();
             log.info("({}h) Starting repair of " + toRepair, Clock.getTime());
-            toRepair.addEvent(new Event(EventType.PROCESSOR_START_REPAIR, p));
+            toRepair.addEvent(new Event(EventType.PROCESSOR_START_REPAIR, p, toRepair));
             currentRepair.add(new AbstractMap.SimpleEntry<>(p, e));
         }
     }

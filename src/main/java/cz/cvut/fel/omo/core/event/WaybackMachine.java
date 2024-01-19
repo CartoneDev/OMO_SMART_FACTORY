@@ -21,6 +21,11 @@ public class WaybackMachine <T extends Copyable & Timed> {
     @SuppressWarnings("unchecked")
     public T goBackTo(Integer timestamp){
         T clone = (T) (initialState).copy();
+        for (Event e : events){
+            if (e.getTimestamp().getTicks() < timestamp){
+                clone.addEvent(e);
+            }
+        }
         return clone;
     }
 

@@ -11,4 +11,6 @@ public class HumanResource extends Processor{
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
+
+
 }

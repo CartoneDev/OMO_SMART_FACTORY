@@ -3,6 +3,10 @@ package cz.cvut.fel.omo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.fel.omo.core.Clock;
 import cz.cvut.fel.omo.core.SmartFactory;
+import cz.cvut.fel.omo.core.report.ConsumptionReport;
+import cz.cvut.fel.omo.core.report.EventReport;
+import cz.cvut.fel.omo.core.report.FactoryConfigurationReport;
+import cz.cvut.fel.omo.core.report.OutagesReport;
 import cz.cvut.fel.omo.utility.Config;
 import lombok.extern.slf4j.XSlf4j;
 
@@ -16,7 +20,7 @@ public class Simulation {
 
     private static SmartFactory factory;
 
-    static Integer slowdown_ms = 350;
+    static Integer slowdown_ms = 35;
     static boolean processing = true;
     static boolean running = false;
     static Clock clock;
@@ -95,10 +99,12 @@ public class Simulation {
             } else if (input.startsWith("/time")) {
                 handleShowTime();
             } else if (input.startsWith("/status")) {
-                factory.printStatus();
-            } else if (input.startsWith("/visit")) {
+                factory.printStatus(Clock.getTime().getTicks());
+            } else if (input.startsWith("/stateOn")){
+                handleStateOn(input);
+            }else if (input.startsWith("/visit")) {
                 handleVisit(input);
-            } else if (input.startsWith("/report")) {
+            } else if (input.startsWith("/report"))  {
                 handlePrintReport(input);
             } else if (input.startsWith("/exit")) {
                 processing = false;
@@ -114,6 +120,27 @@ public class Simulation {
         }
 
 //
+    }
+
+    private static void handleStateOn(String input) {
+        String[] args = input.split(" ");
+        if (args.length < 2) {
+            log.error("No time specified!");
+            log.info("Usage: /stateOn <time>");
+            return;
+        }
+        try {
+            Integer time = Integer.valueOf(args[1]);
+            if (time < 0 || time > Clock.getTime().getTicks()) {
+                log.error("Invalid time!");
+                log.info("Time must be in range <0, {}>", Clock.getTime().getTicks());
+                return;
+            }
+            factory.printStatus(time);
+        } catch (NumberFormatException e) {
+            log.error("Invalid time!");
+            log.info("Usage: /stateOn <time>");
+        }
     }
 
     private static void handleVisit(String input) {
@@ -139,6 +166,36 @@ public class Simulation {
     }
 
     private static void handlePrintReport(String input) {
+        String[] args = input.split(" ");
+        if (args.length < 2) {
+            log.error("No report specified!");
+            log.info("Usage: /report <report> [time]");
+            log.info("Available reports: factory, event, consumption, outages");
+            return;
+        }
+
+        Integer time;
+        try {
+            time = args.length > 2 ? Integer.valueOf(args[2]) : Clock.getTime().getTicks();
+        } catch (NumberFormatException e) {
+            log.error("Invalid time!");
+            log.info("Usage: /report <report> [time]");
+            log.info("Available reports: factory, event, consumption, outages");
+            return;
+        }
+
+        String report = args[1];
+        switch (report) {
+            case "factory" ->
+                new FactoryConfigurationReport().generateReport(factory, time);
+            case "event" ->
+                new EventReport().generateReport(factory, time);
+            case "consumption" ->
+                new ConsumptionReport().generateReport(factory, time);
+            case "outages" ->
+                new OutagesReport().generateReport(factory, time);
+            default -> log.error("Unknown report!");
+        }
     }
 
     private static void handleSetSlowdown(String input) {
@@ -156,6 +213,7 @@ public class Simulation {
             return;
         }
         log.info("Simulation slowdown set to {} ms", ms);
+        slowdown_ms = ms;
     }
 
     private static void handleSetHours(String input) {

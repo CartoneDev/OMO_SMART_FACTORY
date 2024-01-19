@@ -12,12 +12,8 @@ public enum EventType {
     PROCESSOR_START_REPAIR,
     MATERIAL_SPENT;
 
-    public Event getEvent() {
-        return new Event(this, null);
-    }
-    public static boolean isProcessorEvent(EventType type){
-        return type == PROCESSOR_BROKEN  || type ==  PROCESSOR_HALTED     || type ==  PROCESSOR_ASSIGNED ||
-               type == PROCESSOR_STARTED || type ==  PROCESSOR_UNASSIGNED || type ==  PROCESSOR_REPAIRED;
+    public Event getEvent(Object data, EventSource source) {
+        return new Event(this, data, source);
     }
 }
 

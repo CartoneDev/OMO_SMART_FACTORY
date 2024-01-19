@@ -14,7 +14,7 @@ public abstract class ProcessorState {
         return new Initial();
     }
     public ProcessorState handleAssigned(Processor processor, Event event) {
-        processor.setProductionChain((ProductionChain) event.getPayload());
+        processor.setProductionChain((ProductionChain) event.getSource());
         return new Waiting();
     }
 

@@ -9,6 +9,7 @@ import lombok.Setter;
  * Basic event class
  */
 public class Event {
+    private final EventSource source;
     private EventType type;
     private Object payload;
     @Setter
@@ -17,21 +18,14 @@ public class Event {
     private Clock timestamp;
 
 
-    public Event(EventType type, Object data) {
+    public Event(EventType type, Object data, EventSource source) {
         this.type = type;
         this.payload = data;
         timestamp = Clock.getTime();
-    }
-
-    public static Event getEvent(EventType type, Object data) {
-        return new Event(type,data);
-    }
-
-    public static Event getEvent(EventType type) {
-        return new Event(type, null);
+        this.source = source;
     }
 
     public static Event getEmptyEvent() {
-        return new Event(EventType.EMPTY, null);
+        return new Event(EventType.EMPTY, null, null);
     }
 }
