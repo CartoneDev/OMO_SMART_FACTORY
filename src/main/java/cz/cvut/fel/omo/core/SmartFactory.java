@@ -12,6 +12,7 @@ import lombok.extern.slf4j.XSlf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 @XSlf4j(topic = "FACTORY")
@@ -101,5 +102,9 @@ public class SmartFactory implements Visitable {
 
     public void direct() {
         this.accept(new Director());
+    }
+
+    public Set<Event> getMaintenanceEvents() {
+        return maintenance.getEvents();
     }
 }

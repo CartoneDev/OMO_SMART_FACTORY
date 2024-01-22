@@ -10,7 +10,7 @@ public enum EventType {
     PROCESSOR_ASSIGNED,
     PROCESSOR_UNASSIGNED,
     PROCESSOR_START_REPAIR,
-    MATERIAL_SPENT;
+    MATERIAL_SPENT, PRODUCT_CHANGED;
 
     public Event getEvent(Object data, EventSource source) {
         return new Event(this, data, source);

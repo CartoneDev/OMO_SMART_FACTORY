@@ -12,6 +12,7 @@ import java.util.*;
 @XSlf4j (topic = "MAINTENANCE")
 public class Maintenance {
     private final PriorityQueue<PriorityEvent> priorityQueue = new PriorityQueue<>();
+    private final Set<Event> resolvedEvents = new HashSet<>();
     private ArrayList<Processor> repairSquad = new ArrayList<>();
     private final ArrayList<AbstractMap.SimpleEntry<Processor, PriorityEvent>> currentRepair = new ArrayList<>();
     public Maintenance(ProcessorPool ppl){
@@ -41,6 +42,7 @@ public class Maintenance {
                 Event repaired = new Event(EventType.PROCESSOR_REPAIRED, toRepair, p);
                 toRepair.addEvent(repaired);
                 e.setSolver(repaired);
+                resolvedEvents.add(e);
                 iterator.remove();
                 log.info("({}h)Repair of " + toRepair.getName() + " finished", Clock.getTime());
                 repairSquad.add(p);
@@ -96,10 +98,18 @@ public class Maintenance {
             Processor p = repairSquad.remove(0);
             Processor toRepair = (Processor) e.getPayload();
             log.info("({}h) Starting repair of " + toRepair, Clock.getTime());
-            toRepair.addEvent(new Event(EventType.PROCESSOR_START_REPAIR, p, toRepair));
+            Event repairStarted = new Event(EventType.PROCESSOR_START_REPAIR, e, p);
+            toRepair.addEvent(repairStarted);
+            resolvedEvents.add(repairStarted);
             currentRepair.add(new AbstractMap.SimpleEntry<>(p, e));
         }
     }
 
 
+    public Set<Event> getEvents() {
+        HashSet<Event> eventsAll = new HashSet<>(priorityQueue);
+        eventsAll.addAll(resolvedEvents);
+        eventsAll.addAll(currentRepair.stream().map(AbstractMap.SimpleEntry::getValue).toList());
+        return eventsAll;
+    }
 }

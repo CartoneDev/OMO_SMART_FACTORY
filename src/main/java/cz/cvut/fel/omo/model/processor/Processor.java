@@ -29,9 +29,7 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
 
     private CostPH cost;
 
-    private Processor initialState = null;
-
-    private WaybackMachine waybackMachine;
+    private WaybackMachine<Processor> waybackMachine;
 
     public Event tick() {
         if (isBroken()) {
@@ -50,7 +48,8 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
                         .initState()
                         .amount(amount)
                         .damage(damage)
-                        .cost(cost);
+                        .cost(cost).id(id);
+
     }
 
     public void dealDamage(Double damage) {
@@ -71,6 +70,7 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
     }
 
     public void printStatus(Integer time) {
+
         String toPrint;
         if (Objects.equals(time, Clock.getTime().getTicks())){
             toPrint = getStatus();
@@ -82,7 +82,7 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
 
     protected String getStatus(){
         String formattedDamage = String.format("%.2f", damage * 100);
-        return "Processor " + name + " is " + state + " and has " + formattedDamage + "% wear off";
+        return (id) + "Processor " + name + " is " + state + " and has " + formattedDamage + "% wear off";
     }
 
     public String getStatusAt(Integer time){
@@ -104,5 +104,10 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
     @Override
     public String getReportDescriptor() {
         return "Processor " + name + " " + type + " #" + id;
+    }
+
+    public void setId(Integer id) {
+        if (waybackMachine!=null) waybackMachine.getInitialState().setId(id);
+        this.id = id;
     }
 }

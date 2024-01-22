@@ -64,4 +64,9 @@ public class ProcessorBuilder {
         this.noRef = true;
         return this;
     }
+
+    public ProcessorBuilder id(Integer id) {
+        this.result.setId(id);
+        return this;
+    }
 }

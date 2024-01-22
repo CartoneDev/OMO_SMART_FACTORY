@@ -75,11 +75,10 @@ public class RegularSmartFactoryFactory implements SmartFactoryFactory{
                 if (processors == null) {
                     log.error("Not enough processors in pool for " + processor.getName());
                     log.error("Skipping {}-th production chain " + name, i);
-                    processorPoolInstance.returnProcessors(productionChainInstance.getProcessors().stream().collect(ArrayList::new, ArrayList::add, ArrayList::addAll));
                     productionChainInstance = null;
                     break;
                 }
-                productionChainInstance.addProcessors(processors);
+                productionChainInstance.addProcessors(new ArrayList<>(processors));
             }
             if (productionChainInstance == null) { continue; }
             productionChainInstance.setProduct(Config.getProduct(name, 0));

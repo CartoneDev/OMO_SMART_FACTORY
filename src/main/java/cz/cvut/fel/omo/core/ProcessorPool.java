@@ -18,7 +18,7 @@ public class ProcessorPool {
     }
 
     public ArrayList<Processor> getProcessors(String name, Integer amount) {
-        if (!Config.hasProcessor(name)) {
+        if (!Config.hasProcessor(name) && !name.equals("repairman")) {
             log.error("Processor " + name + " is not defined in config");
         }
         ArrayList<Processor> processors = new ArrayList<>();
@@ -28,6 +28,7 @@ public class ProcessorPool {
                 processors.add(pool.remove(0));
             }
         }else {
+
             return null;
         }
 

@@ -7,10 +7,13 @@ import cz.cvut.fel.omo.core.report.ConsumptionReport;
 import cz.cvut.fel.omo.core.report.EventReport;
 import cz.cvut.fel.omo.core.report.FactoryConfigurationReport;
 import cz.cvut.fel.omo.core.report.OutagesReport;
+import cz.cvut.fel.omo.model.Product;
+import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.utility.Config;
 import lombok.extern.slf4j.XSlf4j;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -106,6 +109,8 @@ public class Simulation {
                 handleVisit(input);
             } else if (input.startsWith("/report"))  {
                 handlePrintReport(input);
+            } else if (input.startsWith("/reassemble")) {
+                handleLinkReassemble();
             } else if (input.startsWith("/exit")) {
                 processing = false;
             } else {
@@ -122,6 +127,52 @@ public class Simulation {
 //
     }
 
+    private static void handleLinkReassemble() {
+        ArrayList<ProductionChain> links = SmartFactory.getInstance().getLinks();
+        System.out.println("Please enter the id of the production chain you want to reassemble:");
+        for (ProductionChain productionChain : links) {
+            System.out.println(productionChain.getName() + " #" + productionChain.getId() + " " + productionChain.getPriority() +
+                    " producing: " + productionChain.getProduct().getName());
+        }
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        Integer cId = 0;
+        try {
+            cId = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            log.error("Invalid id!");
+            return;
+        }
+        Integer finalCId = cId;
+        ProductionChain productionChain = links.stream().filter(link -> link.getId().equals(finalCId)).findFirst().orElse(null);
+        if (productionChain == null) {
+            log.error("Production chain with id {} not found!", cId);
+            return;
+        }
+        ArrayList<Product> products = Config.getProducts();
+        System.out.println("Please enter the new product number, options:");
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println("#" + i + " " + products.get(i).getName());
+        }
+        input = scanner.nextLine();
+        Integer productNumber = 0;
+        try {
+            productNumber = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            log.error("Invalid product number!");
+            return;
+        }
+        if (productNumber < 0 || productNumber >= products.size()) {
+            log.error("Invalid product number!");
+            return;
+        }
+        if (productionChain.getProduct().getName().equals(products.get(productNumber).getName())) {
+            log.info("Product is already set to {}", products.get(productNumber).getName());
+            return;
+        }
+        productionChain.rebuildTo(products.get(productNumber));
+    }
+
     private static void handleStateOn(String input) {
         String[] args = input.split(" ");
         if (args.length < 2) {
@@ -130,7 +181,7 @@ public class Simulation {
             return;
         }
         try {
-            Integer time = Integer.valueOf(args[1]);
+            int time = Integer.parseInt(args[1]);
             if (time < 0 || time > Clock.getTime().getTicks()) {
                 log.error("Invalid time!");
                 log.info("Time must be in range <0, {}>", Clock.getTime().getTicks());
@@ -197,6 +248,7 @@ public class Simulation {
             default -> log.error("Unknown report!");
         }
     }
+    // /report outages 1000
 
     private static void handleSetSlowdown(String input) {
         String[] args = input.split(" ");

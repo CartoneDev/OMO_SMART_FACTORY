@@ -24,6 +24,7 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -145,5 +146,9 @@ public class Config {
 
     public static ProductionChain getBlueprintFor(String product) {
         return blueprints.get(product);
+    }
+
+    public static ArrayList<Product> getProducts() {
+        return new ArrayList<>(products.values());
     }
 }

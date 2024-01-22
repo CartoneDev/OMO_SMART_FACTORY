@@ -21,12 +21,13 @@ public class FactoryConfigurationReport implements ReportStrategy {
         ArrayList<ProductionChain> links = factory.getLinks();
         sb.append("Factory has ").append(links.size()).append(" production lines\n");
         for (ProductionChain link : links) {
-            sb.append(" - ").append("Production line #").append(link.getId()).append(" has ").append(link.getProcessors().size()).append(" processors:\n");
-            LinkedList<Processor> processors = link.getProcessors();
+            ProductionChain linkOntime = link.getStateAt(timestamp);
+            sb.append(" - ").append("Production line #").append(linkOntime.getId()).append(" has ").append(linkOntime.getProcessors().size()).append(" processors:\n");
+            LinkedList<Processor> processors = linkOntime.getProcessors();
             processors.forEach(processor -> {
                 sb.append(" - - ").append("#").append(processor.getStatusAt(timestamp)).append("\n");
             });
-            sb.append(" - - ").append("Product: ").append(link.getProduct().getName()).append("\n");
+            sb.append(" - - ").append("Product: ").append(linkOntime.getProduct().getName()).append("\n");
         }
 
         String path = "reports/factory_configuration_report_" + timestamp + ".txt";
