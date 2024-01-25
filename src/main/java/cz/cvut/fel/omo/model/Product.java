@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-public class Product implements Copyable {
+public class Product implements Copyable<Product> {
     private String name;
     private String type;
     private String description;
@@ -17,5 +17,8 @@ public class Product implements Copyable {
 
     public Product copy() {
         return this.toBuilder().build();
+    }
+    public String toString(){
+        return name + " " + type + " \"" + description + "\" (" + amount + "x)";
     }
 }

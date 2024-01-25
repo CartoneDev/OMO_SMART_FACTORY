@@ -43,6 +43,8 @@ public class Config {
     @Setter
     private static boolean fastConfig = false;
 
+    @Getter
+    private static String currency = null;
     private static JsonNode factoryConfig;
     @Getter
     private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.0001, 0.005);
@@ -108,6 +110,11 @@ public class Config {
     }
     public static void loadFactory(JsonNode jsonNode, ObjectMapper mapper) {
         factoryConfig = jsonNode;
+        if (jsonNode.has("currency")){
+            currency = jsonNode.get("currency").asText();
+        } else {
+            currency = "shtuck";
+        }
     }
 
     public static Material getMaterial(String s, int amount) {

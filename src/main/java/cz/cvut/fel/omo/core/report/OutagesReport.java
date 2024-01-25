@@ -11,9 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class OutagesReport implements ReportStrategy{
-    @Override
-    public void generateReport(SmartFactory factory, Integer timestamp) {
+public class OutagesReport extends ReportMethod{
+    public StringBuilder prepareReport(SmartFactory factory, Integer timestamp) {
         Set<Event> events = factory.getMaintenanceEvents().stream().filter(e -> e.getType() == EventType.PROCESSOR_START_REPAIR)
                 .filter(e -> ((Event)e.getPayload()).getSolver() != null)
                 .filter(e -> ((Event)((Event)e.getPayload()).getSolver()).getTimestamp().getTicks() < timestamp)
@@ -27,7 +26,7 @@ public class OutagesReport implements ReportStrategy{
             int repairStartedAt = (event.getTimestamp().getTicks());
             int repairFinishedAt = ((Event)((Event)event.getPayload()).getSolver()).getTimestamp().getTicks();
             Processor sourceProcessor = (Processor) ((Event)event.getPayload()).getSource();
-            int dur = brokenAt - repairFinishedAt;
+            int dur = repairFinishedAt - brokenAt;
             String outageDescription = "P[" + sourceProcessor.getId() + "] outage from " + brokenAt + " to " + repairFinishedAt + " (duration: " + dur + ")\n";
             Map.Entry<String, Integer> entry = Map.entry(outageDescription, dur);
 
@@ -48,16 +47,18 @@ public class OutagesReport implements ReportStrategy{
             sb.append("No resolved outages occurred");
         } else {
             sb.append("Outages occurred: ").append(count).append("\n");
-            sb.append("Average outage duration: ").append(avgOutage).append("\n");
-            sb.append("Average wait duration: ").append(avgWait).append("\n");
+            sb.append("Average outage duration: ").append(String.format("%.2f", avgOutage)).append("\n");
+            sb.append("Average wait duration: ").append(String.format("%.2f",avgWait)).append("\n");
             sb.append("Min outage duration: ").append(min).append("\n");
             sb.append("Max outage duration: ").append(max).append("\n");
             sb.append("Outages:\n");
             outages.stream().sorted(Map.Entry.comparingByValue()).forEach(e -> sb.append(e.getKey()));
         }
 
-        String path = "reports/outages_report_" + timestamp + ".txt";
-        ReportWriter.saveReport(sb, path);
+        return sb;
+    }
+    protected String generatePath(Integer timestamp){
+        return "reports/outages_report_" + timestamp + ".txt";
     }
 
 }

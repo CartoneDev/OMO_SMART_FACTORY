@@ -12,25 +12,29 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 @XSlf4j(topic = "REPORT")
-public class FactoryConfigurationReport implements ReportStrategy {
+public class FactoryConfigurationReport extends ReportMethod {
     @Override
-    public void generateReport(SmartFactory factory, Integer timestamp) {
+    public StringBuilder prepareReport(SmartFactory factory, Integer timestamp) {
         log.info("Generating factory configuration report at {}", timestamp);
         StringBuilder sb = new StringBuilder();
         sb.append(factory.getName()).append(" configuration at time: ").append(timestamp).append("\n");
         ArrayList<ProductionChain> links = factory.getLinks();
         sb.append("Factory has ").append(links.size()).append(" production lines\n");
         for (ProductionChain link : links) {
-            ProductionChain linkOntime = link.getStateAt(timestamp);
-            sb.append(" - ").append("Production line #").append(linkOntime.getId()).append(" has ").append(linkOntime.getProcessors().size()).append(" processors:\n");
-            LinkedList<Processor> processors = linkOntime.getProcessors();
+            ProductionChain linkOnTime = link.getStateAt(timestamp);
+            sb.append(" - ").append("Production line #").append(linkOnTime.getId()).append(" has ").append(linkOnTime.getProcessors().size()).append(" processors:\n");
+            LinkedList<Processor> processors = linkOnTime.getProcessors();
             processors.forEach(processor -> {
                 sb.append(" - - ").append("#").append(processor.getStatusAt(timestamp)).append("\n");
             });
-            sb.append(" - - ").append("Product: ").append(linkOntime.getProduct().getName()).append("\n");
+            sb.append(" - - ").append("Product: ").append(linkOnTime.getProduct().getName()).append("\n");
         }
 
-        String path = "reports/factory_configuration_report_" + timestamp + ".txt";
-        ReportWriter.saveReport(sb, path);
+        return sb;
+    }
+
+    @Override
+    protected String generatePath(Integer timestamp) {
+        return "reports/factory_configuration_report_" + timestamp + ".txt";
     }
 }

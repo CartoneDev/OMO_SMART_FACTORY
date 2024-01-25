@@ -7,8 +7,8 @@ import lombok.Getter;
 import java.sql.Time;
 import java.util.ArrayList;
 
-public class WaybackMachine <T extends Copyable & Timed> {
-    @Getter
+@Getter
+public class WaybackMachine <T extends Copyable<T> & Timed> {
     private final T initialState;
 
     private ArrayList<Event> events;

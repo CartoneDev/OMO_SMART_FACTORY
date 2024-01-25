@@ -440,6 +440,7 @@
   ],
 
   "factory": {
+    "currency": "money",
     "name": "makes anything",
     "repairman": 20,
     "productionChains": [

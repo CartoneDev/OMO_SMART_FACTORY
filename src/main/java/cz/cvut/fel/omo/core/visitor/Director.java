@@ -32,22 +32,25 @@ public class Director implements Visitor{
     @Override
     public void visit(HumanResource humanResource) {
         String[] actionPool = {"is screaming on", "is talking to", "is yelling at", "is laughing at", "is crying on", "is singing to", "is sighing loudly while looking at"};
+        String action = actionPool[(int) (Math.random() * actionPool.length)];
         if (Math.random()>0.5){
             Double damage = (Math.random()-0.5) * 0.1 / 8;
             humanResource.setDamage(Math.max(humanResource.getDamage() - damage, 0));
         }
-        log.info("Director {} " + humanResource.toString().toLowerCase().split("assigned")[0], Arrays.stream(actionPool).min((a, b) -> Math.random() > 0.5 ? 1 : -1).get());
+        log.info("Director {} " + humanResource.toString().toLowerCase().split("assigned")[0], action);
     }
 
     @Override
     public void visit(Machine processor) {
         String[] actionPool = {"is looking at", "stares on blinking lights on", "nods mindfully"};
-        log.info("Director {} " + processor.toString().toLowerCase().split("assigned")[0], Arrays.stream(actionPool).min((a, b) -> Math.random() > 0.5 ? 1 : -1).get());
+        String action = actionPool[(int) (Math.random() * actionPool.length)];
+        log.info("Director {} " + processor.toString().toLowerCase().split("assigned")[0], action);
     }
 
     @Override
     public void visit(RoboticResource processor) {
         String[] actionPool = {"admires the view of", "follows each movement of", "gazes on a little scratch on"};
-        log.info("Director {} " + processor.toString().toLowerCase().split("assigned")[0], Arrays.stream(actionPool).min((a, b) -> Math.random() > 0.5 ? 1 : -1).get());
+        String action = actionPool[(int) (Math.random() * actionPool.length)];
+        log.info("Director {} " + processor.toString().toLowerCase().split("assigned")[0], action);
     }
 }

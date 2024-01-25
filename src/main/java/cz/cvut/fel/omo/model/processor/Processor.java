@@ -5,6 +5,7 @@ import cz.cvut.fel.omo.core.event.*;
 import cz.cvut.fel.omo.core.event.WaybackMachine;
 import cz.cvut.fel.omo.core.visitor.Visitable;
 import cz.cvut.fel.omo.model.CostPH;
+import cz.cvut.fel.omo.model.Product;
 import cz.cvut.fel.omo.model.ProductionChain;
 import cz.cvut.fel.omo.model.processor.states.ProcessorState;
 import cz.cvut.fel.omo.utility.Config;
@@ -17,7 +18,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Processor implements Timed, Copyable, Visitable, EventSource {
+public abstract class Processor implements Timed, Copyable<Processor>, Visitable, EventSource {
     private Integer id;
     private String name;
     private String type;
@@ -103,11 +104,16 @@ public abstract class Processor implements Timed, Copyable, Visitable, EventSour
     }
     @Override
     public String getReportDescriptor() {
-        return "Processor " + name + " " + type + " #" + id;
+        return "Processor " + name + " " + type + " #" + id + (!name.equals("repairman")?"[" + state + "]":"");
     }
 
     public void setId(Integer id) {
         if (waybackMachine!=null) waybackMachine.getInitialState().setId(id);
         this.id = id;
+    }
+
+    @Override
+    public Timed onTime(Integer timestamp) {
+        return waybackMachine.goBackTo(timestamp);
     }
 }

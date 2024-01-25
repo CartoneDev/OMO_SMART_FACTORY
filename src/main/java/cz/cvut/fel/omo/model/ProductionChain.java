@@ -17,7 +17,7 @@ import lombok.extern.slf4j.XSlf4j;
 @Getter
 @Setter
 @XSlf4j (topic = "PROD_CHAIN")
-public class ProductionChain implements Visitable, EventSource, Copyable, Timed {
+public class ProductionChain implements Visitable, EventSource, Copyable<ProductionChain>, Timed {
     private Integer priority;
     private Integer id;
     private String name;
@@ -177,11 +177,11 @@ public class ProductionChain implements Visitable, EventSource, Copyable, Timed 
 
     @Override
     public String getReportDescriptor() {
-        return "Production chain " + name + " (#" + id + ")" + " producing " + product.getName();
+        return "Production chain " + " (#" + id + ")" + " producing " + product.getName();
     }
 
     @Override
-    public Copyable copy() {
+    public ProductionChain copy() {
         ProductionChain copy = new ProductionChain();
         copy.setName(name);
         copy.setProduct(product);
@@ -219,6 +219,11 @@ public class ProductionChain implements Visitable, EventSource, Copyable, Timed 
                 prototype = Config.getBlueprintFor(product.getName());
             }
         }
+    }
+
+    @Override
+    public Timed onTime(Integer timestamp) {
+        return waybackMachine.goBackTo(timestamp);
     }
 
     private void rebuildChainTo(Product product, Event event){

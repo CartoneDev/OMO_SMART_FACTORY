@@ -21,6 +21,8 @@ import java.util.Scanner;
 @XSlf4j(topic = "SIM")
 public class Simulation {
 
+    public static final double DIRECTOR_CHANCE_PER_TICK = 0.001221;
+    public static final double INSPECTOR_CHANCE_PER_TICK = 0.001111;
     private static SmartFactory factory;
 
     static Integer slowdown_ms = 35;
@@ -51,6 +53,7 @@ public class Simulation {
             handleInput();
 
             if (running) {
+                handleRandomEvents();
                 if (factory != null){
                     factory.tick();
                 }else{
@@ -68,6 +71,17 @@ public class Simulation {
             }
         }
         log.info("Simulation stopped!");
+    }
+
+    private static void handleRandomEvents() {
+        if (Math.random() < INSPECTOR_CHANCE_PER_TICK) {
+            log.info("Wild inspector appears!");
+            factory.inspect();
+        }
+        if (Math.random() < DIRECTOR_CHANCE_PER_TICK) {
+            log.info("Director decides to check up on{}", factory.getName());
+            factory.direct();
+        }
     }
 
     private static void handleSlowdown(Integer slowdownms) {

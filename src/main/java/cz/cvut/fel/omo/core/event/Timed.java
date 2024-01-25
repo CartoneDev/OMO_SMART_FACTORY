@@ -6,4 +6,5 @@ package cz.cvut.fel.omo.core.event;
  */
 public interface Timed {
     void addEvent(Event event);
+    Timed onTime(Integer timestamp);
 }

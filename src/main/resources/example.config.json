@@ -106,13 +106,20 @@
     }
   ],
 
+
+
   "factory": {
+    "currency": "ICU",
     "name": "Cybran T1 Land Factory",
-    "repairman": 3,
+    "repairman": 1,
     "productionChains": [
       {
         "makes": "t1 cybran scout",
         "priority": 10
+      },
+      {
+        "makes": "t1 cybran scout",
+        "priority": 7
       }
     ],
     "processors": [

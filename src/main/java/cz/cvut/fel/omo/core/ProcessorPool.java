@@ -1,11 +1,13 @@
 package cz.cvut.fel.omo.core;
 
+import cz.cvut.fel.omo.core.event.Event;
 import cz.cvut.fel.omo.model.processor.Processor;
 import cz.cvut.fel.omo.utility.Config;
 import lombok.extern.slf4j.XSlf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 /**
  * Object pool for processors, processor may preserve its state and be reused
@@ -47,5 +49,13 @@ public class ProcessorPool {
 
     public int getPoolSize(String name) {
         return processorPool.get(name).size();
+    }
+
+    public ArrayList<Event> collectEvents() {
+        return (ArrayList<Event>) processorPool.entrySet().stream()
+                .flatMap(e -> e.getValue().stream())
+                .flatMap(p -> p.getWaybackMachine()
+                        .getEvents().stream())
+                .collect(Collectors.toList());
     }
 }
