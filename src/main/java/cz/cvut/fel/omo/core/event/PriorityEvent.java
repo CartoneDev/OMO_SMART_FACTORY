@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo.core.event;
 
+/**
+ * Event with priority for managing event priority queue in Maintenance department
+ */
 public class PriorityEvent extends Event implements Comparable<PriorityEvent> {
     Integer priority;
     public PriorityEvent(EventType type, Object data, Integer priority, EventSource source){

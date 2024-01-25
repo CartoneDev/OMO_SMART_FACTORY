@@ -7,7 +7,16 @@ import cz.cvut.fel.omo.utility.Config;
 
 import java.util.Random;
 
+/**
+ * Processing state of a processor
+ */
 public class Processing extends ProcessorState{
+    /**
+     * Consumes an event altering the state of the processor
+     * @param processor processor to consume the event
+     * @param event event to be consumed
+     * @return
+     */
     @Override
     public ProcessorState consume(Processor processor, Event event) {
         return switch (event.getType()) {

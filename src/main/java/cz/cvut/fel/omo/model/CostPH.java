@@ -4,10 +4,18 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Class representing a bundle of materials
+ */
 @Getter
 public class CostPH {
     List<Material> materials = new ArrayList<>();
 
+    /**
+     * Adds a material to the bundle
+     * @param m
+     */
     public void addCost(Material m) {
         materials.add(m);
     }

@@ -18,6 +18,12 @@ public class ProductionChainStateIterator {
     private Integer timestamp;
     private Integer previousTimestamp = 0;
     private Integer dueTimestamp;
+
+    /**
+     * Constructor
+     * @param productionChain
+     * @param dueTimestamp
+     */
     public ProductionChainStateIterator(ProductionChain productionChain, Integer dueTimestamp) {
         this.productionChain = productionChain;
         this.timestamp = 0;
@@ -28,10 +34,19 @@ public class ProductionChainStateIterator {
                 .filter(e -> e.getTimestamp().getTicks() < dueTimestamp)
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
+
+    /**
+     * Checks if there is next state
+     * @return true if there is next state, false otherwise
+     */
     public boolean hasNext() {
         return !events.isEmpty();
     }
 
+    /**
+     * Returns next state without accounting for events from previous states
+     * @return next state
+     */
     public ProductionChain next() {
         previousTimestamp = timestamp;
         ProductionChain result = (ProductionChain) productionChain.getWaybackMachine().getInitialState().copy();
@@ -61,6 +76,11 @@ public class ProductionChainStateIterator {
         return result;
     }
 
+
+    /**
+     * Returns next state accounting for events from previous states
+     * @return next state
+     */
     private boolean isSetupChainType(EventType type) {
         return type == EventType.PRODUCT_CHANGED
                 || type == EventType.PROCESSOR_ASSIGNED

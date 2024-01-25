@@ -18,11 +18,15 @@ import java.util.Objects;
 import java.util.Scanner;
 
 
+/**
+ * Main static class and entry point of the program
+ * handles user input and simulation process
+ */
 @XSlf4j(topic = "SIM")
 public class Simulation {
 
-    public static final double DIRECTOR_CHANCE_PER_TICK = 0.001221;
-    public static final double INSPECTOR_CHANCE_PER_TICK = 0.001111;
+    private static final double DIRECTOR_CHANCE_PER_TICK = 0.001221;
+    private static final double INSPECTOR_CHANCE_PER_TICK = 0.001111;
     private static SmartFactory factory;
 
     static Integer slowdown_ms = 35;
@@ -31,21 +35,30 @@ public class Simulation {
     static Clock clock;
     static Integer set_hours = -1;
 
+    /**
+     * Main method
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         init();
         run_simulation();
     }
 
+    /**
+     * Initializes simulation
+     */
     private static void init() {
         log.info("Setting clock");
         clock = Clock.getTimer();
     }
 
-
+    /**
+     * Runs simulation
+     */
     static void run_simulation() {
         log.info("Simulation launched!");
 
-        handleLoadConfig("-d"); // DEBUG ONLY
+        handleLoadConfig("-ff -d"); // DEBUG ONLY
         running = true;
 
         while (processing){
@@ -73,6 +86,9 @@ public class Simulation {
         log.info("Simulation stopped!");
     }
 
+    /**
+     * Handles random events
+     */
     private static void handleRandomEvents() {
         if (Math.random() < INSPECTOR_CHANCE_PER_TICK) {
             log.info("Wild inspector appears!");
@@ -84,6 +100,10 @@ public class Simulation {
         }
     }
 
+    /**
+     * Handles slowdown between ticks and makes help more readable
+     * @param slowdownms slowdown in ms
+     */
     private static void handleSlowdown(Integer slowdownms) {
         try {
             Thread.sleep(slowdownms);
@@ -92,6 +112,9 @@ public class Simulation {
         }
     }
 
+    /**
+     * Handles input from console
+     */
     private static void handleInput() {
         try {
             if (! (System.in.available() > 0)) return; // Don't block main thread
@@ -123,24 +146,50 @@ public class Simulation {
                 handleVisit(input);
             } else if (input.startsWith("/report"))  {
                 handlePrintReport(input);
-            } else if (input.startsWith("/reassemble")) {
+            } else if (input.startsWith("/prod")){
+                handlePrintProductionTotal(input);
+            }
+            else if (input.startsWith("/reassemble")) {
                 handleLinkReassemble();
             } else if (input.startsWith("/exit")) {
                 processing = false;
             } else {
                 log.error("Unknown command!");
             }
-
-
-
         }
         catch (Exception e) {
             log.error("Error while reading input!");
         }
-
-//
     }
 
+    /**
+     * Handles printing of production total
+     * @param input {command} <time>
+     */
+    private static void handlePrintProductionTotal(String input) {
+        String[] args = input.split(" ");
+        int time = Clock.getTime().getTicks();
+        if (args.length == 2) {
+            try {
+                time = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                log.error("Invalid time!");
+                log.info("Usage: /prod <time>");
+            }
+        }else {
+            log.info("Usage: /prod <time>");
+        }
+        if (time < 0 || time > Clock.getTime().getTicks()) {
+            log.error("Invalid time!");
+            log.info("Time must be in range <0, {}>", Clock.getTime().getTicks());
+            return;
+        }
+        factory.printProductionTotal(time);
+    }
+
+    /**
+     * Handles reassembling of production chain
+     */
     private static void handleLinkReassemble() {
         ArrayList<ProductionChain> links = SmartFactory.getInstance().getLinks();
         System.out.println("Please enter the id of the production chain you want to reassemble:");
@@ -187,6 +236,10 @@ public class Simulation {
         productionChain.rebuildTo(products.get(productNumber));
     }
 
+    /**
+     * Handles printing of factory state at given time
+     * @param input {command} <time>
+     */
     private static void handleStateOn(String input) {
         String[] args = input.split(" ");
         if (args.length < 2) {
@@ -208,6 +261,10 @@ public class Simulation {
         }
     }
 
+    /**
+     * Handles visiting of factory with given visitor
+     * @param input {command} <visitor> - visitor can be inspector or director
+     */
     private static void handleVisit(String input) {
         String[] args = input.split(" ");
         if (args.length < 2) {
@@ -226,10 +283,17 @@ public class Simulation {
         }
     }
 
+    /**
+     * Handles printing of current time
+     */
     private static void handleShowTime() {
         log.info("Current time passed is {} hours", clock.getTicks());
     }
 
+    /**
+     * Handles printing of given report at given time
+     * @param input {command} <report> [time]
+     */
     private static void handlePrintReport(String input) {
         String[] args = input.split(" ");
         if (args.length < 2) {
@@ -262,8 +326,11 @@ public class Simulation {
             default -> log.error("Unknown report!");
         }
     }
-    // /report outages 1000
 
+    /**
+     * Handles setting of simulation slowdown between ticks
+     * @param input {command} <ms>
+     */
     private static void handleSetSlowdown(String input) {
         String[] args = input.split(" ");
         int ms = 0;
@@ -282,6 +349,11 @@ public class Simulation {
         slowdown_ms = ms;
     }
 
+    /**
+     * Handles setting of simulation hours
+     * Which overrides default behaviour of infinite simulation
+     * @param input {command} <hours>
+     */
     private static void handleSetHours(String input) {
         String[] args = input.split(" ");
         int hours = 0;
@@ -297,6 +369,9 @@ public class Simulation {
         log.info("Current tick: {}", clock.getTicks());
     }
 
+    /**
+     * Handles printing of help
+     */
     private static void handleHelp() {
         log.info("These programs allows you run a factory simulation by a given config file.");
         handleSlowdown(450);
@@ -319,9 +394,24 @@ public class Simulation {
         log.info("/slowdown <ms> - sets simulation slowdown in ms, 350 by default");
         handleSlowdown(350);
         log.info("/time - shows current time passed");
-
+        handleSlowdown(250);
+        log.info("/status - shows current status of the factory");
+        handleSlowdown(250);
+        log.info("/stateOn <time> - shows state of the factory at given time");
+        handleSlowdown(250);
+        log.info("/visit <visitor> - visits factory with given visitor");
+        handleSlowdown(250);
+        log.info("/report <report> [time] - prints given report at given time");
+        handleSlowdown(250);
+        log.info("/exit - exits the program");
+        handleSlowdown(250);
+        log.info("/help - shows this help");
     }
 
+    /**
+     * Handles running for given number of ticks
+     * @param input {command} <ticks>
+     */
     private static void handleTick(String input) {
         String[] args = input.split(" ");
         Integer ticks = 1;
@@ -339,6 +429,10 @@ public class Simulation {
         }
     }
 
+    /**
+     * Handles loading of config file
+     * @param input {command} [-ff] [-d] <path> -ff enables fast config mode, -d loads default config
+     */
     private static void handleLoadConfig(String input) {
         Config.clear();
         Config.setFastConfig(input.contains("-ff"));

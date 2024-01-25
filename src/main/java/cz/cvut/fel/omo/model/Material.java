@@ -9,6 +9,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Class representing a material
+ */
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Setter
@@ -20,6 +23,9 @@ public class Material implements Copyable {
     private Integer amount;
     private BigDecimal value;
 
+    /**
+     * Changes value of the material to be the value of 1 unit of material
+     */
     // Converts value of an amount of material to value of 1 unit of material
     public void unitize() {
 
@@ -27,6 +33,10 @@ public class Material implements Copyable {
         amount = 1;
     }
 
+    /**
+     * Creates a copy of the material
+     * @return copy of the material
+     */
     @Override
     public Material copy() {
         return this.toBuilder().build();

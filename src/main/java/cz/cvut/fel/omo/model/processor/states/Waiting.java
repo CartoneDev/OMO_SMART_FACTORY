@@ -7,6 +7,9 @@ import java.util.Objects;
 
 import static cz.cvut.fel.omo.core.event.EventType.PROCESSOR_STARTED;
 
+/**
+ * Waiting state of a processor
+ */
 public class Waiting extends ProcessorState{
     @Override
     public ProcessorState consume(Processor processor, Event event) {

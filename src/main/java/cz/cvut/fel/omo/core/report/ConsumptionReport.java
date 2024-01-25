@@ -10,6 +10,9 @@ import cz.cvut.fel.omo.utility.ProductionChainStateIterator;
 
 import java.util.ArrayList;
 
+/**
+ * Report for factory consumption
+ */
 public class ConsumptionReport extends ReportMethod {
     @Override
     public StringBuilder prepareReport(SmartFactory factory, Integer timestamp) {

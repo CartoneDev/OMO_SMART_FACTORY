@@ -9,25 +9,44 @@ import lombok.extern.slf4j.XSlf4j;
 import java.util.*;
 
 
+/**
+ * Class representing the maintenance department of the factory
+ */
 @XSlf4j (topic = "MAINTENANCE")
 public class Maintenance {
     private final PriorityQueue<PriorityEvent> priorityQueue = new PriorityQueue<>();
     private final Set<Event> resolvedEvents = new HashSet<>();
     private ArrayList<Processor> repairSquad = new ArrayList<>();
     private final ArrayList<AbstractMap.SimpleEntry<Processor, PriorityEvent>> currentRepair = new ArrayList<>();
+    /**
+     * Constructor for the maintenance department
+     * @param ppl processor pool to get repairmen from
+     */
     public Maintenance(ProcessorPool ppl){
         repairSquad = ppl.getProcessors("repairman", ppl.getPoolSize("repairman"));
     }
+
+    /**
+     * Reports an incident to the maintenance department
+     * @param e event to be reported
+     */
     public void incidentReported(PriorityEvent e){
         priorityQueue.add(e);
     }
 
+    /**
+     * Ticks the maintenance department
+     */
     public void tick(){
         handleReportedIncidents();
 
         handleRepair();
 
     }
+
+    /**
+     * Handles the repair of the processors
+     */
     public void handleRepair(){
         Iterator<AbstractMap.SimpleEntry<Processor, PriorityEvent>> iterator = currentRepair.iterator();
         while (iterator.hasNext()) {
@@ -51,6 +70,11 @@ public class Maintenance {
 
     }
 
+    /**
+     * Handles the repair of the processor
+     * @param p repairman
+     * @param toRepair processor to be repaired
+     */
     private void handleProcessorRepair(Processor p, Processor toRepair) {
         switch (toRepair.getType())
         {
@@ -65,6 +89,10 @@ public class Maintenance {
         }
     }
 
+    /**
+     * Handles the repair of the worker
+     * @param toRepair worker to be repaired
+     */
     private void handleWorkerRepair(Processor toRepair) {
         double cur_dam = toRepair.getDamage();
         double new_dam = cur_dam - 0.1;
@@ -74,6 +102,10 @@ public class Maintenance {
         toRepair.setDamage(new_dam);
     }
 
+    /**
+     * Handles the repair of the robot
+     * @param toRepair
+     */
     private void handleRobotRepair(Processor toRepair) {
         double cur_dam = toRepair.getDamage();
         double new_dam = cur_dam - 0.2;
@@ -83,6 +115,10 @@ public class Maintenance {
         toRepair.setDamage(new_dam);
     }
 
+    /**
+     * Handles the repair of the machine
+     * @param toRepair
+     */
     private void handleMachineRepair(Processor toRepair) {
         double cur_dam = toRepair.getDamage();
         double new_dam = cur_dam - new java.util.Random().nextDouble() * 0.5;
@@ -92,6 +128,9 @@ public class Maintenance {
         toRepair.setDamage(new_dam);
     }
 
+    /**
+     * Handles the newly(by priority queue order) reported incidents
+     */
     public void handleReportedIncidents(){
         while (!repairSquad.isEmpty() && !priorityQueue.isEmpty()){
             PriorityEvent e = priorityQueue.remove();
@@ -106,6 +145,10 @@ public class Maintenance {
     }
 
 
+    /**
+     * Returns all events
+     * @return set of all events
+     */
     public Set<Event> getEvents() {
         HashSet<Event> eventsAll = new HashSet<>(priorityQueue);
         eventsAll.addAll(resolvedEvents);

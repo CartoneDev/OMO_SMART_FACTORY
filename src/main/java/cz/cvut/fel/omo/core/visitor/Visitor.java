@@ -8,6 +8,9 @@ import cz.cvut.fel.omo.model.processor.RoboticResource;
 
 import java.awt.*;
 
+/**
+ * Visitor interface for visitor pattern
+ */
 public interface Visitor {
     void visit(SmartFactory smartFactory);
     void visit(ProductionChain productionChain);

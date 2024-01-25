@@ -8,11 +8,17 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 /**
+ * Utility class
  * Summator for materials
  */
 public class MaterialSummator {
     private final HashMap<String, Material> materials = new HashMap<>();
 
+    /**
+     * Adds material to the summator
+     * @param material material to be added
+     * @param amount amount of material to be added
+     */
     public void addMaterial(Material material, Integer amount) {
         if (materials.containsKey(material.getName())) {
             Material m = materials.get(material.getName());
@@ -25,12 +31,21 @@ public class MaterialSummator {
     }
 
 
+    /**
+     * Adds a bundle of materials to the summator
+     * @param cost bundle of materials to be added
+     * @param v multiplier
+     */
     public void add(CostPH cost, double v) {
         for (Material m : cost.getMaterials()) {
             addMaterial(m, (int) Math.ceil(m.getAmount() * v));
         }
     }
 
+    /**
+     * Returns the total of the materials in human-readable form
+     * @return total of the materials in human-readable form
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         BigDecimal total = BigDecimal.ZERO;

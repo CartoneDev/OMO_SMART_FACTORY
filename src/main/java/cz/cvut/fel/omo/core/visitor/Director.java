@@ -13,8 +13,17 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+/**
+ * Visitor implementation for director
+ * The class is a visitor that visits all processors in the factory and performs random actions
+ * may miraculously cure burned out workers
+ */
 @XSlf4j(topic = "DIRECTOR")
 public class Director implements Visitor{
+    /**
+     * Visits the factory
+     * @param smartFactory
+     */
     @Override
     public void visit(SmartFactory smartFactory) {
         log.info("Director is visiting factory " + smartFactory.getName());
@@ -23,12 +32,20 @@ public class Director implements Visitor{
                 .toList().forEach(productionChain -> productionChain.accept(this));
     }
 
+    /**
+     * Visits the production chain
+     * @param productionChain production chain to visit
+     */
     @Override
     public void visit(ProductionChain productionChain) {
         log.info("Director is visiting production chain " + productionChain.getName());
         productionChain.getProcessors().forEach(processor -> processor.accept(this));
     }
 
+    /**
+     * Visits the human resource and performs random action, may miraculously cure burned out workers
+     * @param humanResource worker to visit
+     */
     @Override
     public void visit(HumanResource humanResource) {
         String[] actionPool = {"is screaming on", "is talking to", "is yelling at", "is laughing at", "is crying on", "is singing to", "is sighing loudly while looking at"};
@@ -40,6 +57,10 @@ public class Director implements Visitor{
         log.info("Director {} " + humanResource.toString().toLowerCase().split("assigned")[0], action);
     }
 
+    /**
+     * Visits the machine and performs random action
+     * @param processor machine to visit
+     */
     @Override
     public void visit(Machine processor) {
         String[] actionPool = {"is looking at", "stares on blinking lights on", "nods mindfully"};
@@ -47,6 +68,10 @@ public class Director implements Visitor{
         log.info("Director {} " + processor.toString().toLowerCase().split("assigned")[0], action);
     }
 
+    /**
+     * Visits the robotic resource and performs random action
+     * @param processor robotic resource to visit
+     */
     @Override
     public void visit(RoboticResource processor) {
         String[] actionPool = {"admires the view of", "follows each movement of", "gazes on a little scratch on"};

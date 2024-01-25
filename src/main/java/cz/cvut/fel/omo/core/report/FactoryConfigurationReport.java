@@ -11,8 +11,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * Report for factory configuration
+ */
 @XSlf4j(topic = "REPORT")
 public class FactoryConfigurationReport extends ReportMethod {
+    /**
+     * Prepares specific report for given factory at given timestamp
+     * @param factory factory to generate report for
+     * @param timestamp timestamp of the report
+     * @return report inside StringBuilder
+     */
     @Override
     public StringBuilder prepareReport(SmartFactory factory, Integer timestamp) {
         log.info("Generating factory configuration report at {}", timestamp);
@@ -33,6 +42,11 @@ public class FactoryConfigurationReport extends ReportMethod {
         return sb;
     }
 
+    /**
+     * Generates path for report
+     * @param timestamp timestamp of the report
+     * @return path for report
+     */
     @Override
     protected String generatePath(Integer timestamp) {
         return "reports/factory_configuration_report_" + timestamp + ".txt";

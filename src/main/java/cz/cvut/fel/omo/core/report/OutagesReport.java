@@ -11,7 +11,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Report for outages
+ */
 public class OutagesReport extends ReportMethod{
+    /**
+     * Prepares outages report for the factory on given timestamp
+     * @param factory factory to generate report for
+     * @param timestamp timestamp of the report
+     * @return report inside StringBuilder
+     */
     public StringBuilder prepareReport(SmartFactory factory, Integer timestamp) {
         Set<Event> events = factory.getMaintenanceEvents().stream().filter(e -> e.getType() == EventType.PROCESSOR_START_REPAIR)
                 .filter(e -> ((Event)e.getPayload()).getSolver() != null)
@@ -57,6 +66,12 @@ public class OutagesReport extends ReportMethod{
 
         return sb;
     }
+
+    /**
+     * Generates path for outages report
+     * @param timestamp timestamp of the report
+     * @return path for report
+     */
     protected String generatePath(Integer timestamp){
         return "reports/outages_report_" + timestamp + ".txt";
     }

@@ -9,15 +9,35 @@ import cz.cvut.fel.omo.model.Material;
 
 import java.io.IOException;
 
+/**
+ * Utility class
+ * Deserializer for Material
+ */
 public class MaterialDeserializer extends StdDeserializer<Material> {
+
+    /**
+     * Empty constructor need by Jackson
+     */
     public MaterialDeserializer () {
         this(null);
     }
 
+    /**
+     * Constructor also needed by Jackson
+     * @param vc
+     */
     public MaterialDeserializer (Class<?> vc) {
         super(vc);
     }
 
+    /**
+     * Deserializes the Material from the given JsonNode
+     * @param jsonParser JsonParser
+     * @param deserializationContext DeserializationContext
+     * @return deserialized Material
+     * @throws IOException
+     * @throws JacksonException
+     */
     @Override
     public Material deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);

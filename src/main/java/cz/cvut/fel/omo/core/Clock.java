@@ -1,6 +1,11 @@
 package cz.cvut.fel.omo.core;
 
-public class Clock { // conuter alike clock + date for reporting
+/**
+ *  Clock is a singleton class representing the time in the factory.
+ *  It is used to synchronize the events in the factory.
+ *  Also meant to be used if time units is to be changed.
+ */
+public class Clock {
     private static Clock instance;
     private Integer ticks = 0;
 

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import cz.cvut.fel.omo.core.SmartFactory;
 import cz.cvut.fel.omo.core.decay.ProcessorDecayModel;
 import cz.cvut.fel.omo.core.decay.RandomDecayModel;
-import cz.cvut.fel.omo.factorial.NoPreprocessorsFactory;
+import cz.cvut.fel.omo.factorial.NoPreprocessorsFactoryFactory;
 import cz.cvut.fel.omo.factorial.RegularSmartFactoryFactory;
 import cz.cvut.fel.omo.factorial.SmartFactoryFactory;
 import cz.cvut.fel.omo.model.Material;
@@ -50,6 +50,13 @@ public class Config {
     private static ProcessorDecayModel decayModel = new RandomDecayModel(new Random(), 0.0001, 0.005);
     // ---
 
+    /**
+     * Loads the configuration from the given path.
+     *
+     * @param path path to the configuration file
+     * @throws FileNotFoundException if the file is not found
+     * @throws JsonProcessingException if the file is not in JSON format
+     */
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {
         File file = new File(path);
         Scanner scanner = new Scanner(file);
@@ -77,8 +84,15 @@ public class Config {
 //        blueprints
         loadBlueprints(jsonNode.get("blueprints"), mapper);
 //                factory
-        loadFactory(jsonNode.get("factory"), mapper);
+        loadFactory(jsonNode.get("factory"));
     }
+
+    /**
+     * Loads processors from the given JSON node.
+     * @param jsonNode
+     * @param objectMapper
+     * @throws JsonProcessingException
+     */
     public static void loadProcessors(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Processor[] processors = objectMapper.treeToValue(jsonNode, Processor[].class);
         for (Processor processor : processors) {
@@ -86,6 +100,13 @@ public class Config {
         }
 
     }
+
+    /**
+     * Loads materials from the given JSON node.
+     * @param jsonNode
+     * @param objectMapper
+     * @throws JsonProcessingException
+     */
     public static void loadMaterials(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Material[] materials = objectMapper.treeToValue(jsonNode, Material[].class);
         for (Material material : materials) {
@@ -94,6 +115,12 @@ public class Config {
         }
     }
 
+    /**
+     * Loads products from the given JSON node.
+     * @param jsonNode
+     * @param objectMapper
+     * @throws JsonProcessingException
+     */
     public static void loadProducts(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Product[] products = objectMapper.treeToValue(jsonNode, Product[].class);
         for (Product product : products) {
@@ -101,6 +128,13 @@ public class Config {
         }
 
     }
+
+    /**
+     * Loads blueprints from the given JSON node.
+     * @param jsonNode
+     * @param objectMapper
+     * @throws JsonProcessingException
+     */
     public static void loadBlueprints(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException  {
         ProductionChain[] productionChains = objectMapper.treeToValue(jsonNode, ProductionChain[].class);
         for (ProductionChain productionChain : productionChains) {
@@ -108,7 +142,14 @@ public class Config {
         }
 
     }
-    public static void loadFactory(JsonNode jsonNode, ObjectMapper mapper) {
+
+    /**
+     * Loads factory setting from the given JSON node.
+     *
+     * @param jsonNode
+     * @throws JsonProcessingException
+     */
+    public static void loadFactory(JsonNode jsonNode) {
         factoryConfig = jsonNode;
         if (jsonNode.has("currency")){
             currency = jsonNode.get("currency").asText();
@@ -117,20 +158,41 @@ public class Config {
         }
     }
 
-    public static Material getMaterial(String s, int amount) {
-        return materials.get(s).toBuilder().amount(amount).build();
+    /**
+     * Returns loaded material with the given name.
+     * @param name
+     * @param amount
+     * @return material
+     */
+    public static Material getMaterial(String name, int amount) {
+        return materials.get(name).toBuilder().amount(amount).build();
     }
 
-    public static Processor getProcessor(String s, int amount) {
-        Processor processor = processors.get(s);
+    /**
+     * Returns loaded processor with the given name.
+     * @param name
+     * @param amount
+     * @return processor
+     */
+    public static Processor getProcessor(String name, int amount) {
+        Processor processor = processors.get(name);
         return processor.toBuilder().amount(amount).build();
-}
+    }
 
+    /**
+     * Returns loaded product with the given name.
+     * @param productName
+     * @param amount
+     * @return product
+     */
     public static Product getProduct(String productName, int amount) {
         Product product = products.get(productName);
         return product.toBuilder().amount(amount).build();
     }
 
+    /**
+     * Clears all the loaded data.
+     */
     public static void clear() {
         processors.clear();
         materials.clear();
@@ -138,23 +200,45 @@ public class Config {
         products.clear();
     }
 
+    /**
+     * Instantiates factory singleton based on configuration provided.
+     * @return factory configuration
+     */
     public static SmartFactory buildFactory() {
-        SmartFactoryFactory factoryFactory = (fastConfig ? new NoPreprocessorsFactory() : new RegularSmartFactoryFactory());
+        SmartFactoryFactory factoryFactory = (fastConfig ? new NoPreprocessorsFactoryFactory() : new RegularSmartFactoryFactory());
         return factoryFactory.createSmartFactory(factoryConfig);
     }
 
+    /**
+     * Returns true if there is a processor in config with the given name.
+     * @param name
+     * @return true if there is a processor in config with the given name, false otherwise
+     */
     public static boolean hasProcessor(String name) {
         return processors.containsKey(name);
     }
 
+    /**
+     * Returns true if there is a production chain in config for product with the given name.
+     * @param name
+     * @return true if there is a production chain in config for product with the given name, false otherwise
+     */
     public static boolean hasBlueprintFor(String name) {
         return blueprints.containsKey(name);
     }
 
+    /**
+     * Returns blueprint for product with the given name.
+     * @param product
+     * @return blueprint for product with the given name
+     */
     public static ProductionChain getBlueprintFor(String product) {
         return blueprints.get(product);
     }
 
+    /**
+     * Returns all the products loaded from config.
+     */
     public static ArrayList<Product> getProducts() {
         return new ArrayList<>(products.values());
     }

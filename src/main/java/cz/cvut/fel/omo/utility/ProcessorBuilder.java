@@ -11,9 +11,18 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 
+/**
+ * Builder for processors, produces three descendant classes of Processor
+ */
 public class ProcessorBuilder {
     private final Processor result;
     private boolean noRef;
+
+    /**
+     * Constructor
+     * @param type type of processor
+     * @throws IOException if type is unknown
+     */
     @SneakyThrows
     public ProcessorBuilder (String type){
         result = switch (type) {
@@ -24,16 +33,23 @@ public class ProcessorBuilder {
         };
         result.setType(type);
     }
+
+    /**
+     * Sets the name of the processor
+     * @param name
+     * @return builder
+     */
     public ProcessorBuilder name(String name){
         result.setName(name);
         return this;
     }
 
-    public ProcessorBuilder cost(JsonNode node, JsonParser jp, DeserializationContext ctxt) {
-//        result.setCost(new CostPH(node.get("cost").asInt()));
-        return this;
-    }
 
+    /**
+     * Builds the processor
+     * Sets the wayback machine of the processor
+     * @return builder
+     */
     public Processor build() {
         if (!noRef) { // The initial state doesn't need an initial state
             result.setWaybackMachine(new WaybackMachine(result.copy()));
@@ -41,30 +57,55 @@ public class ProcessorBuilder {
         return result;
     }
 
+    /**
+     * Sets the damage of the processor
+     * @return builder
+     */
     public ProcessorBuilder damage(Double damage) {
         this.result.setDamage(damage);
         return this;
     }
+
+    /**
+     * Sets the amount of the processor
+     * @return builder
+     */
     public ProcessorBuilder amount(Integer amount) {
         this.result.setAmount(amount);
         return this;
     }
 
+    /**
+     * Sets the state of the processor to initial
+     * @return builder
+     */
     public ProcessorBuilder initState() {
         this.result.setState(new Initial());
         return this;
     }
 
+    /**
+     * Sets the cost of the processor
+     * @return builder
+     */
     public ProcessorBuilder cost(CostPH costPH) {
         this.result.setCost(costPH);
         return this;
     }
 
+    /**
+     * Sets not to create a reference to the processor
+     * @return builder
+     */
     public ProcessorBuilder noRef() {
         this.noRef = true;
         return this;
     }
 
+    /**
+     * Sets the id of the processor
+     * @return builder
+     */
     public ProcessorBuilder id(Integer id) {
         this.result.setId(id);
         return this;

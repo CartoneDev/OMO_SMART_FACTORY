@@ -4,6 +4,9 @@ import cz.cvut.fel.omo.core.visitor.Visitor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing a human worker
+ */
 @NoArgsConstructor
 public class HumanResource extends Processor{
 

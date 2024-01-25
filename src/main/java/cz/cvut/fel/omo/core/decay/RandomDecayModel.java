@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import java.util.Random;
 
 
+/**
+ * Random decay model
+ * Randomly deals damage to the processor with a little pinch of chaos
+ */
 @AllArgsConstructor
 public class RandomDecayModel implements ProcessorDecayModel{
     Random random = new Random();

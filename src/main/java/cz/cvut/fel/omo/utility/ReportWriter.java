@@ -9,9 +9,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import lombok.extern.slf4j.XSlf4j;
+
+/**
+ * Class for writing reports to files
+ */
 @XSlf4j(topic = "REPORT")
 public class ReportWriter {
 
+    /**
+     * Writes the report to the file
+     *
+     * @param stringBuilder StringBuilder containing the report
+     * @param filePath      Path to the file
+     */
     public static void saveReport(StringBuilder stringBuilder, String filePath) {
         try {
             // Create directories if they don't exist
@@ -27,6 +37,12 @@ public class ReportWriter {
         }
     }
 
+    /**
+     * Creates directories for the file if they don't exist
+     *
+     * @param filePath Path to the file
+     * @throws IOException If an I/O error occurs
+     */
     private static void createDirectories(String filePath) throws IOException {
         Path parentDirectory = Paths.get(filePath).getParent();
         if (parentDirectory != null) {

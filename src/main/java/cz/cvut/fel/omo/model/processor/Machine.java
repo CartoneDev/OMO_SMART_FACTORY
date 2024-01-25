@@ -4,6 +4,9 @@ import cz.cvut.fel.omo.core.visitor.Visitor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class representing a machine processor
+ */
 @NoArgsConstructor
 public class Machine extends Processor{
     @Override

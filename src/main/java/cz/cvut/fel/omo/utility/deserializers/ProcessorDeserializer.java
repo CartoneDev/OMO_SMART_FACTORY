@@ -10,16 +10,34 @@ import cz.cvut.fel.omo.utility.ProcessorBuilder;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Utility class
+ * Deserializer for Processor
+ */
 public class ProcessorDeserializer extends StdDeserializer<Processor> {
 
+    /**
+     * Empty constructor need by Jackson
+     */
     public ProcessorDeserializer() {
         this(null);
     }
 
+    /**
+     * Constructor also needed by Jackson
+     * @param vc
+     */
     public ProcessorDeserializer(Class<?> vc) {
         super(vc);
     }
 
+    /**
+     * Deserializes the Processor from the given JsonNode
+     * @param jp JsonParser
+     * @param ctxt DeserializationContext
+     * @return deserialized Processor
+     * @throws IOException
+     */
     @Override
     public Processor deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
