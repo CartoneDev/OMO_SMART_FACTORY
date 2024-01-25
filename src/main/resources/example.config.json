@@ -1,0 +1,140 @@
+{
+  "products": [
+    {
+      "name": "t1 cybran scout",
+      "type": "unit",
+      "description": "invisible chip and cardboard",
+      "costPH": {
+        "electricity": 1600,
+        "mass": 160
+      }
+    },
+    {
+      "name": "t1 radar",
+      "type": "building",
+      "description": "build vision",
+      "costPH": {
+        "electricity": 350,
+        "mass": 80
+      }
+    }
+  ],
+  "processors": [
+    {
+      "name": "alliance worker",
+      "type": "worker",
+      "description": "rabotyaga",
+      "costPH": {
+        "ICU": 1
+      }
+    },
+    {
+      "name": "t1 cybran engineer",
+      "type": "robot",
+      "description": "robotyaga",
+      "costPH": {
+        "electricity": 10
+      }
+    },
+    {
+      "name": "4d mass printer",
+      "type": "machine",
+      "description": "tyaga",
+      "costPH": {
+        "electricity": 55
+      }
+    }
+  ]
+  ,
+  "materials": [
+    {
+      "type" : "ICU",
+      "value": 1,
+      "amount": 1,
+      "name" : "ICU",
+      "description" : "Imaginary Currency Unit"
+    },
+    {
+      "type" : "energy",
+      "value": 10,
+      "amount": 100,
+      "name" : "electricity",
+      "description" : "energy"
+    },
+    {
+      "name" : "mass",
+      "type" : "mass",
+      "value": 1,
+      "amount": 1
+    }
+  ]
+  ,
+  "blueprints": [
+    {
+      "name": "t1 cybran scout",
+      "amount": 200,
+
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 5
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 2
+        },
+        {
+          "name": "4d mass printer",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "name": "t1 radar",
+      "amount": 100,
+
+      "processors" : [
+        {
+          "name": "alliance worker",
+          "amount": 25
+        },
+        {
+          "name": "t1 cybran engineer",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+
+
+
+  "factory": {
+    "currency": "ICU",
+    "name": "Cybran T1 Land Factory",
+    "repairman": 1,
+    "productionChains": [
+      {
+        "makes": "t1 cybran scout",
+        "priority": 10
+      },
+      {
+        "makes": "t1 cybran scout",
+        "priority": 7
+      }
+    ],
+    "processors": [
+        {
+            "name": "alliance worker",
+            "amount": 30
+        },
+        {
+            "name": "t1 cybran engineer",
+            "amount": 15
+        },
+        {
+            "name": "4d mass printer",
+            "amount": 5
+        }
+    ]
+  }
+}
