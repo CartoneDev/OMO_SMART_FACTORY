@@ -35,7 +35,7 @@ public class ProcessorBuilder {
 
     /**
      * Sets the name of the processor
-     * @param name
+     * @param name name of the processor
      * @return builder
      */
     public ProcessorBuilder name(String name){

@@ -29,7 +29,7 @@ public class Simulation {
     private static final double INSPECTOR_CHANCE_PER_TICK = 0.001111;
     private static SmartFactory factory;
 
-    static Integer slowdown_ms = 35;
+    static Integer slowdown_ms = 135;
     static boolean processing = true;
     static boolean running = false;
     static Clock clock;
@@ -58,8 +58,7 @@ public class Simulation {
     static void run_simulation() {
         log.info("Simulation launched!");
 
-        handleLoadConfig("-ff -d"); // DEBUG ONLY
-        running = true;
+        running = false;
 
         while (processing){
             // Maybe separate thread for input would be more appropriate
@@ -469,6 +468,8 @@ public class Simulation {
             log.error("Error while building factory!");
         }
         init();
+        running = true;
+        log.info("Simulation started!");
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class Director implements Visitor{
     /**
      * Visits the factory
-     * @param smartFactory
+     * @param smartFactory factory to visit
      */
     @Override
     public void visit(SmartFactory smartFactory) {
