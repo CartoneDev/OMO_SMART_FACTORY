@@ -24,7 +24,7 @@ public class MaterialDeserializer extends StdDeserializer<Material> {
 
     /**
      * Constructor also needed by Jackson
-     * @param vc
+     * @param vc Class
      */
     public MaterialDeserializer (Class<?> vc) {
         super(vc);
@@ -32,11 +32,11 @@ public class MaterialDeserializer extends StdDeserializer<Material> {
 
     /**
      * Deserializes the Material from the given JsonNode
+     * Throws IOException if the node is not in the correct format
+     * Throws JacksonException if the node is not in the correct format
      * @param jsonParser JsonParser
      * @param deserializationContext DeserializationContext
      * @return deserialized Material
-     * @throws IOException
-     * @throws JacksonException
      */
     @Override
     public Material deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {

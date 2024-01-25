@@ -83,7 +83,7 @@ public abstract class Processor implements Timed, Copyable<Processor>, Visitable
 
     /**
      * Adds an event to the processor, which state is altered by the event
-     * @param event
+     * @param event event to be added
      */
     public void addEvent(Event event) {
         if (waybackMachine!=null) waybackMachine.eventHappened(event);
@@ -124,7 +124,7 @@ public abstract class Processor implements Timed, Copyable<Processor>, Visitable
 
     /**
      * Returns the status of the processor at a given time
-     * @param time
+     * @param time time at which the status is to be returned
      * @return status of the processor at a given time
      */
     public String getStatusAt(Integer time){
@@ -163,7 +163,6 @@ public abstract class Processor implements Timed, Copyable<Processor>, Visitable
 
     /**
      * Returns the processor in human-readable form
-     * @return the processor in human-readable form
      */
     public void setId(Integer id) {
         if (waybackMachine!=null) waybackMachine.getInitialState().setId(id);
@@ -172,7 +171,7 @@ public abstract class Processor implements Timed, Copyable<Processor>, Visitable
 
     /**
      * Returns the processor in time
-     * @param timestamp
+     * @param timestamp time at which the processor is to be returned
      * @return the processor in time
      */
     @Override

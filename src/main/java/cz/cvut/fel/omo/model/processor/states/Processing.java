@@ -15,7 +15,7 @@ public class Processing extends ProcessorState{
      * Consumes an event altering the state of the processor
      * @param processor processor to consume the event
      * @param event event to be consumed
-     * @return
+     * @return new state of the processor
      */
     @Override
     public ProcessorState consume(Processor processor, Event event) {

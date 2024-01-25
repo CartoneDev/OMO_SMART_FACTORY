@@ -164,7 +164,7 @@ public class Simulation {
 
     /**
      * Handles printing of production total
-     * @param input {command} <time>
+     * @param input {command} {time}
      */
     private static void handlePrintProductionTotal(String input) {
         String[] args = input.split(" ");
@@ -238,7 +238,7 @@ public class Simulation {
 
     /**
      * Handles printing of factory state at given time
-     * @param input {command} <time>
+     * @param input {command} {time}
      */
     private static void handleStateOn(String input) {
         String[] args = input.split(" ");
@@ -263,7 +263,7 @@ public class Simulation {
 
     /**
      * Handles visiting of factory with given visitor
-     * @param input {command} <visitor> - visitor can be inspector or director
+     * @param input {command} {visitor} - visitor can be inspector or director
      */
     private static void handleVisit(String input) {
         String[] args = input.split(" ");
@@ -292,7 +292,7 @@ public class Simulation {
 
     /**
      * Handles printing of given report at given time
-     * @param input {command} <report> [time]
+     * @param input {command} {report} [time]
      */
     private static void handlePrintReport(String input) {
         String[] args = input.split(" ");
@@ -329,7 +329,7 @@ public class Simulation {
 
     /**
      * Handles setting of simulation slowdown between ticks
-     * @param input {command} <ms>
+     * @param input {command} {ms}
      */
     private static void handleSetSlowdown(String input) {
         String[] args = input.split(" ");
@@ -352,7 +352,7 @@ public class Simulation {
     /**
      * Handles setting of simulation hours
      * Which overrides default behaviour of infinite simulation
-     * @param input {command} <hours>
+     * @param input {command} {hours}
      */
     private static void handleSetHours(String input) {
         String[] args = input.split(" ");
@@ -410,7 +410,7 @@ public class Simulation {
 
     /**
      * Handles running for given number of ticks
-     * @param input {command} <ticks>
+     * @param input {command} {ticks}
      */
     private static void handleTick(String input) {
         String[] args = input.split(" ");
@@ -431,7 +431,7 @@ public class Simulation {
 
     /**
      * Handles loading of config file
-     * @param input {command} [-ff] [-d] <path> -ff enables fast config mode, -d loads default config
+     * @param input {command} [-ff] [-d] {path} -ff enables fast config mode, -d loads default config
      */
     private static void handleLoadConfig(String input) {
         Config.clear();

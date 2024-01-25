@@ -14,7 +14,7 @@ public class CostPH {
 
     /**
      * Adds a material to the bundle
-     * @param m
+     * @param m material to be added
      */
     public void addCost(Material m) {
         materials.add(m);

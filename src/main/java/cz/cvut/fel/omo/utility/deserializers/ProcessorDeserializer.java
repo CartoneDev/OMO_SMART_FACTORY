@@ -25,7 +25,7 @@ public class ProcessorDeserializer extends StdDeserializer<Processor> {
 
     /**
      * Constructor also needed by Jackson
-     * @param vc
+     * @param vc Class
      */
     public ProcessorDeserializer(Class<?> vc) {
         super(vc);
@@ -36,7 +36,7 @@ public class ProcessorDeserializer extends StdDeserializer<Processor> {
      * @param jp JsonParser
      * @param ctxt DeserializationContext
      * @return deserialized Processor
-     * @throws IOException
+     * throws IOException
      */
     @Override
     public Processor deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

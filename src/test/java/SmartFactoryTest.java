@@ -90,6 +90,9 @@ public class SmartFactoryTest {
         assert (!iterator.hasNext());
     }
 
+    /**
+     * Tests if decay model works and maintenance department repairs broken processors
+     */
     @Test
     public void basicFactoryFunctionalityTest(){
         tickN(5);

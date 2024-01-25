@@ -54,8 +54,8 @@ public class Config {
      * Loads the configuration from the given path.
      *
      * @param path path to the configuration file
-     * @throws FileNotFoundException if the file is not found
-     * @throws JsonProcessingException if the file is not in JSON format
+     * throws FileNotFoundException if the file is not found
+     * throws JsonProcessingException if the file is not in JSON format
      */
     public static void loadConfig(String path) throws FileNotFoundException, JsonProcessingException {
         File file = new File(path);
@@ -89,9 +89,9 @@ public class Config {
 
     /**
      * Loads processors from the given JSON node.
-     * @param jsonNode
-     * @param objectMapper
-     * @throws JsonProcessingException
+     * @param jsonNode JSON node containing processors
+     * @param objectMapper object mapper
+     * throws JsonProcessingException
      */
     public static void loadProcessors(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Processor[] processors = objectMapper.treeToValue(jsonNode, Processor[].class);
@@ -103,9 +103,9 @@ public class Config {
 
     /**
      * Loads materials from the given JSON node.
-     * @param jsonNode
-     * @param objectMapper
-     * @throws JsonProcessingException
+     * @param jsonNode JSON node containing materials
+     * @param objectMapper  object mapper
+     * throws JsonProcessingException
      */
     public static void loadMaterials(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Material[] materials = objectMapper.treeToValue(jsonNode, Material[].class);
@@ -117,9 +117,9 @@ public class Config {
 
     /**
      * Loads products from the given JSON node.
-     * @param jsonNode
-     * @param objectMapper
-     * @throws JsonProcessingException
+     * @param jsonNode JSON node containing products
+     * @param objectMapper object mapper
+     * throws JsonProcessingException
      */
     public static void loadProducts(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException {
         Product[] products = objectMapper.treeToValue(jsonNode, Product[].class);
@@ -131,9 +131,9 @@ public class Config {
 
     /**
      * Loads blueprints from the given JSON node.
-     * @param jsonNode
-     * @param objectMapper
-     * @throws JsonProcessingException
+     * @param jsonNode JSON node containing blueprints
+     * @param objectMapper object mapper
+     * throws JsonProcessingException
      */
     public static void loadBlueprints(JsonNode jsonNode, ObjectMapper objectMapper) throws JsonProcessingException  {
         ProductionChain[] productionChains = objectMapper.treeToValue(jsonNode, ProductionChain[].class);
@@ -146,8 +146,8 @@ public class Config {
     /**
      * Loads factory setting from the given JSON node.
      *
-     * @param jsonNode
-     * @throws JsonProcessingException
+     * @param jsonNode JSON node containing factory settings
+     * throws JsonProcessingException
      */
     public static void loadFactory(JsonNode jsonNode) {
         factoryConfig = jsonNode;

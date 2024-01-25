@@ -21,8 +21,8 @@ public class  CostDeserializer {
      * @param jsonParser JsonParser
      * @param deserializationContext DeserializationContext
      * @return deserialized CostPH
-     * @throws IOException
-     * @throws JacksonException
+     * throws IOException
+     * throws JacksonException
      */
     public static CostPH deserialize(JsonNode node, JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
         CostPH cost = new CostPH();

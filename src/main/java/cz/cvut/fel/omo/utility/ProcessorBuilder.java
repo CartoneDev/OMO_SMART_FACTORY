@@ -19,9 +19,8 @@ public class ProcessorBuilder {
     private boolean noRef;
 
     /**
-     * Constructor
+     * Constructor may throw an exception if the type is unknown
      * @param type type of processor
-     * @throws IOException if type is unknown
      */
     @SneakyThrows
     public ProcessorBuilder (String type){
